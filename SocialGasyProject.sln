@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialGasy", "SocialGasy\SocialGasy.csproj", "{FDCCD827-EF10-C969-5337-53026DFAE843}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FDCCD827-EF10-C969-5337-53026DFAE843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDCCD827-EF10-C969-5337-53026DFAE843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDCCD827-EF10-C969-5337-53026DFAE843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDCCD827-EF10-C969-5337-53026DFAE843}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {329A3350-2D13-4C1B-9E03-68AAB1610A3E}
+	EndGlobalSection
+EndGlobal
