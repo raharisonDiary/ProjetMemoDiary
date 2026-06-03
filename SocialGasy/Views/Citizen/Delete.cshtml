@@ -1,0 +1,16 @@
+@model SocialGasy.Models.Citizen
+@{ ViewData["Title"] = "Supprimer le Citoyen"; }
+
+<div class="container py-5">
+    <h2>Supprimer le citoyen : @Model.LastName @Model.FirstName</h2>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">CIN</dt><dd class="col-sm-9">@Model.CIN</dd>
+        <dt class="col-sm-3">Date de naissance</dt><dd class="col-sm-9">@Model.DateOfBirth.ToShortDateString()</dd>
+    </dl>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Supprimer</button> |
+        <a asp-action="Index">Retour à la liste</a>
+    </form>
+</div>

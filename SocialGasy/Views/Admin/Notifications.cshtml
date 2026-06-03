@@ -1,0 +1,63 @@
+@model IEnumerable<SocialGasy.Models.Report>
+@{
+    ViewData["Title"] = "Rapports Reçus";
+}
+
+<div class="container py-5">
+    <div class="d-flex align-items-center mb-4">
+        <h2 class="fw-bold text-dark mb-0">
+            <i class="bi bi-envelope-paper-fill text-primary me-2"></i> Rapports Reçus
+        </h2>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Statut</th>
+                        <th>Chef Régional</th>
+                        <th>Date</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model)
+                    {
+                        <tr class="@(r.IsRead ? "" : "table-warning-subtle")">
+                            <td class="ps-4">
+                                @if (r.IsRead)
+                                {
+                                    <span class="badge bg-success-subtle text-success rounded-pill px-3">
+                                        <i class="bi bi-check-all"></i> Lu
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning-subtle text-warning rounded-pill px-3">
+                                        <i class="bi bi-exclamation-circle"></i> Non lu
+                                    </span>
+                                }
+                            </td>
+                            <td class="fw-semibold">@r.ChefName</td>
+                            <td class="text-muted">@r.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td class="text-center">
+                                <a asp-action="JereoRapport" asp-route-id="@r.Id" 
+                                   class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                    Consulter
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
+        @if (!Model.Any())
+        {
+            <div class="p-5 text-center">
+                <p class="text-muted">Aucun rapport reçu pour le moment.</p>
+            </div>
+        }
+    </div>
+</div>

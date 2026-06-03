@@ -1,0 +1,84 @@
+@using Microsoft.Extensions.Localization
+@using SocialGasy
+@inject IStringLocalizer<SharedResource> Localizer
+
+@{
+    ViewData["Title"] = Localizer["AccessDeniedTitle"];
+}
+
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light px-4">
+    <div class="row justify-content-center w-100">
+        <div class="col-xl-5 col-lg-6 col-md-8">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden text-center animate__animated animate__fadeIn">
+                
+                <div class="bg-danger py-2 w-100"></div>
+
+                <div class="card-body p-5">
+                    <div class="mb-4">
+                        <div class="icon-circle bg-danger-soft text-danger mx-auto mb-3 animate__animated animate__pulse animate__infinite">
+                            <i class="bi bi-shield-slash-fill display-3"></i>
+                        </div>
+                    </div>
+                    
+                    <h2 class="fw-bold text-dark mb-2">@Localizer["AccessDeniedHeader"]</h2>
+                    <p class="text-muted mb-4 mx-auto" style="max-width: 80%;">
+                        @Localizer["AccessDeniedMessage"]
+                    </p>
+
+                    <div class="alert bg-light border-0 py-3 mb-5 rounded-3 text-start d-flex align-items-start">
+                        <i class="bi bi-info-circle-fill text-primary me-3 fs-4"></i>
+                        <small class="text-secondary mt-1">
+                            Raha heverinao fa tokony hahazo alalana eto ianao, dia mifandraisa amin'ny <strong>Admin</strong> na andramo ny <strong>miditra indray</strong>.
+                        </small>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <a asp-controller="Campaign" asp-action="Index" class="btn btn-primary btn-lg w-100 py-3 fw-bold shadow-sm rounded-3">
+                                <i class="bi bi-house-door me-2"></i> @Localizer["AgentDashboardLink"]
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a asp-controller="Auth" asp-action="Logout" class="btn btn-outline-danger btn-lg w-100 py-3 fw-bold rounded-3">
+                                <i class="bi bi-box-arrow-right me-2"></i> @Localizer["Logout"]
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-white border-0 pb-4">
+                    <p class="text-muted small mb-0">&copy; 2026 - SocialGasy Security System</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-danger-soft { 
+        background-color: #fff5f5;
+        width: 120px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+
+    .animate__animated {
+        animation-duration: 0.8s;
+    }
+
+    .card {
+        box-shadow: 0 20px 40px rgba(0,0,0,0.05) !important;
+    }
+
+    .btn {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+</style>

@@ -1,0 +1,28 @@
+## User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docuser
+
+## Build results
+[Dd]ebug/
+[DebugCloud]/
+[Rr]elease/
+x64/
+x86/
+[Aa]rm/
+[Aa]rm64/
+bld/
+[Bb]in/
+[Oo]bj/
+Log/
+Logs/
+
+[Bb]in/
+[Oo]bj/
+.vs/
+appsettings.json
+
+## Visual Studio 2015/2017/2019/2022 cache/options directory
+.vs/

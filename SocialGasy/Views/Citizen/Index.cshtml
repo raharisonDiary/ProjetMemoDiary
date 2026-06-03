@@ -1,0 +1,96 @@
+@model IEnumerable<SocialGasy.Models.Citizen>
+@{ 
+    ViewData["Title"] = "Liste des Habitants"; 
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="bi bi-people-fill text-primary"></i> Liste des Habitants</h2>
+            <p class="text-muted mb-0">Gestion de la base de données des citoyens</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary shadow-sm px-4">
+            <i class="bi bi-plus-lg me-1"></i> Nouveau Citoyen
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-3">
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                        <input type="text" id="searchInput" class="form-control border-start-0" placeholder="Rechercher par nom ou CIN...">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select id="filterGender" class="form-select">
+                        <option value="">Tous les genres</option>
+                        <option value="M">Masculin</option>
+                        <option value="F">Féminin</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="citizenTable">
+                <thead class="table-light">
+                    <tr>
+                        <th class="px-4">CIN</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Sexe</th>
+                        <th class="text-end px-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="citizen-row" data-gender="@item.Gender">
+                            <td class="px-4 fw-semibold">@item.CIN</td>
+                            <td>@item.LastName</td>
+                            <td>@item.FirstName</td>
+                            <td>
+                                <span class="badge @(item.Gender == "M" ? "bg-info" : "bg-warning") text-dark">
+                                    @(item.Gender == "M" ? "Masculin" : "Féminin")
+                                </span>
+                            </td>
+                            <td class="text-end px-4">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                    <i class="bi bi-eye-fill me-1"></i> Détails
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            function filterTable() {
+                let searchTerm = $('#searchInput').val().toLowerCase();
+                let genderFilter = $('#filterGender').val();
+
+                $('.citizen-row').each(function() {
+                    let text = $(this).text().toLowerCase();
+                    let gender = $(this).data('gender');
+                    
+                    let matchesSearch = text.includes(searchTerm);
+                    let matchesGender = (genderFilter === "" || gender === genderFilter);
+
+                    $(this).toggle(matchesSearch && matchesGender);
+                });
+            }
+
+            $('#searchInput').on('keyup', filterTable);
+            $('#filterGender').on('change', filterTable);
+        });
+    </script>
+}

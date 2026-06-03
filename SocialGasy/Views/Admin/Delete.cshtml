@@ -1,0 +1,14 @@
+@model SocialGasy.Models.User
+
+<h2>Mamafa Chef</h2>
+
+<h3>Tena te hamafa an'i @Model.FullName ve ianao?</h3>
+
+<div>
+    <p>Email: @Model.Email</p>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Eny, hamafa</button>
+        <a asp-action="ListChefs" class="btn btn-secondary">Tsia, ajanony</a>
+    </form>
+</div>

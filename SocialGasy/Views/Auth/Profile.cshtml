@@ -1,0 +1,68 @@
+@{
+    ViewData["Title"] = "Profil Utilisateur";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center animate__animated animate__fadeIn">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header border-0 p-5 text-center" 
+                     style="background: linear-gradient(135.22deg, #007bff 0%, #6610f2 100%);">
+                    <div class="position-relative d-inline-block">
+                        <div class="bg-white rounded-circle p-1 shadow">
+                            <img src="https://ui-avatars.com/api/?name=@ViewBag.UserName&background=random&size=128" 
+                                 class="rounded-circle img-fluid" alt="Avatar">
+                        </div>
+                        <span class="position-absolute bottom-0 end-0 bg-success border border-2 border-white rounded-circle p-2"></span>
+                    </div>
+                    <h3 class="text-white mt-3 fw-bold mb-0">@ViewBag.UserName</h3>
+                    <p class="text-white-50 small mb-0">@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</p>
+                </div>
+
+                <div class="card-body p-4">
+                    <h6 class="text-muted small text-uppercase fw-bold mb-3 tracking-wider">Informations personnelles</h6>
+                    
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item px-0 py-3 border-0 d-flex align-items-center">
+                            <div class="bg-light p-2 rounded-3 me-3">
+                                <i class="bi bi-person text-primary"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Nom d'utilisateur</small>
+                                <span class="fw-bold">@ViewBag.UserName</span>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item px-0 py-3 border-0 d-flex align-items-center">
+                            <div class="bg-light p-2 rounded-3 me-3">
+                                <i class="bi bi-shield-lock text-success"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Rôle (Accès)</small>
+                                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">
+                                    @User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4 opacity-10">
+
+                    <div class="d-grid gap-2">
+                        <a asp-controller="Auth" asp-action="Logout" class="btn btn-outline-danger rounded-pill py-2">
+                            <i class="bi bi-box-arrow-right me-2"></i> Se déconnecter
+                        </a>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-light rounded-pill py-2">
+                            <i class="bi bi-house me-2"></i> Retour au Tableau de bord
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tracking-wider { letter-spacing: 0.1em; }
+    .animate__animated { --animate-duration: 0.6s; }
+</style>

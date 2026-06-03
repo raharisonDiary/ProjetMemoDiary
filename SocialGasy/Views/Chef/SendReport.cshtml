@@ -1,0 +1,48 @@
+@model SocialGasy.Models.Report
+
+@{
+    ViewData["Title"] = "Soumettre un Rapport";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="bg-success text-white p-4 rounded-top-4">
+                    <h4 class="mb-0"><i class="bi bi-send-fill me-2"></i> Soumettre un Rapport</h4>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form asp-action="SendReport" method="post">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Nom du Chef</label>
+                                <input asp-for="ChefName" class="form-control form-control-lg rounded-3" placeholder="Nom complet" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">CIN du Chef</label>
+                                <input asp-for="ChefCin" class="form-control form-control-lg rounded-3" placeholder="Numéro CIN" required />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nombre total d'agents</label>
+                            <input asp-for="TotalAgents" type="number" class="form-control form-control-lg rounded-3" placeholder="Ex: 10" required />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Contenu du rapport</label>
+                            <textarea asp-for="Content" class="form-control form-control-lg rounded-3" rows="6" placeholder="Détails du rapport ici..." required></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Dashboard" class="btn btn-outline-secondary btn-lg rounded-pill px-4 me-md-2">Annuler</a>
+                            <button type="submit" class="btn btn-success btn-lg rounded-pill px-5 shadow-sm">
+                                <i class="bi bi-check-circle me-2"></i> Envoyer à l'Admin
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

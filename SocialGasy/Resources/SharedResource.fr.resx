@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <data name="Dashboard" xml:space="preserve"><value>Tableau de bord</value></data>
+  <data name="Mponina" xml:space="preserve"><value>Citoyens</value></data>
+  <data name="Statistiques" xml:space="preserve"><value>Statistiques</value></data>
+  <data name="Mpikambana" xml:space="preserve"><value>Membres</value></data>
+  <data name="Paramètres" xml:space="preserve"><value>Paramètres</value></data>
+  <data name="Hivoaka" xml:space="preserve"><value>Déconnexion</value></data>
+  <data name="Midira" xml:space="preserve"><value>Connexion</value></data>
+  <data name="Rafitra Fitantanana" xml:space="preserve"><value>Système de Gestion de Distribution</value></data>
+
+  <data name="DashboardTitle" xml:space="preserve"><value>Tableau de bord - Social Gasy</value></data>
+  <data name="WelcomeTitle" xml:space="preserve"><value>Bienvenue sur Social Gasy</value></data>
+  <data name="WelcomeSubtitle" xml:space="preserve"><value>Système de gestion de distribution (Temps réel)</value></data>
+  <data name="CitizensLabel" xml:space="preserve"><value>Citoyens</value></data>
+  <data name="CoverageRateLabel" xml:space="preserve"><value>Taux de Couverture</value></data>
+  <data name="ViewList" xml:space="preserve"><value>Voir la liste</value></data>
+  <data name="StartCampaign" xml:space="preserve"><value>Démarrer une campagne</value></data>
+  <data name="ViewStats" xml:space="preserve"><value>Voir les stats</value></data>
+  <data name="QuickActions" xml:space="preserve"><value>Actions Rapides</value></data>
+  <data name="AddCitizen" xml:space="preserve"><value>Ajouter un citoyen</value></data>
+  <data name="ScanQR" xml:space="preserve"><value>Scanner un code QR</value></data>
+  <data name="CreateCampaign" xml:space="preserve"><value>Créer une campagne</value></data>
+  <data name="ViewAll" xml:space="preserve"><value>Voir tout</value></data>
+
+  <data name="CitizenListTitle" xml:space="preserve"><value>Liste des Citoyens</value></data>
+  <data name="CitizenListSubtitle" xml:space="preserve"><value>Liste des personnes enregistrées dans le système</value></data>
+  <data name="AddNew" xml:space="preserve"><value>Ajouter nouveau</value></data>
+  <data name="ColCIN" xml:space="preserve"><value>CIN</value></data>
+  <data name="ColFullName" xml:space="preserve"><value>Nom complet</value></data>
+  <data name="ColFokontany" xml:space="preserve"><value>Fokontany</value></data>
+  <data name="ColPhone" xml:space="preserve"><value>Téléphone</value></data>
+  <data name="ColQRCode" xml:space="preserve"><value>Code QR</value></data>
+  <data name="ColAction" xml:space="preserve"><value>Actions</value></data>
+  <data name="NoCitizensFound" xml:space="preserve"><value>Aucun citoyen enregistré dans la base de données.</value></data>
+  <data name="None" xml:space="preserve"><value>Aucun</value></data>
+  <data name="ClickToEnlarge" xml:space="preserve"><value>Cliquer pour agrandir</value></data>
+  <data name="View" xml:space="preserve"><value>Voir détails</value></data>
+
+  <data name="Save" xml:space="preserve"><value>Enregistrer</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Annuler</value></data>
+  <data name="Edit" xml:space="preserve"><value>Modifier</value></data>
+  <data name="Delete" xml:space="preserve"><value>Supprimer</value></data>
+  <data name="Search" xml:space="preserve"><value>Rechercher...</value></data>
+  <data name="BackToList" xml:space="preserve"><value>Retour à la liste</value></data>
+  <data name="SaveAndGenerateQR" xml:space="preserve"><value>Enregistrer et Générer QR Code</value></data>
+
+  <data name="CIN" xml:space="preserve"><value>Numéro CIN</value></data>
+  <data name="Phone" xml:space="preserve"><value>Téléphone (pour OTP)</value></data>
+  <data name="LastName" xml:space="preserve"><value>Nom</value></data>
+  <data name="FirstName" xml:space="preserve"><value>Prénom</value></data>
+  <data name="Fokontany" xml:space="preserve"><value>Fokontany</value></data>
+  <data name="Address" xml:space="preserve"><value>Adresse précise</value></data>
+  <data name="AddressRequired" xml:space="preserve"><value>Le champ Adresse est obligatoire.</value></data>
+
+  <data name="DashboardTitle" xml:space="preserve"><value>Tableau de bord du Fokontany</value></data>
+  <data name="TotalCitizensLabel" xml:space="preserve"><value>TOTAL DES CITOYENS</value></data>
+  <data name="BeneficiariesLabel" xml:space="preserve"><value>DÉJÀ BÉNÉFICIAIRES</value></data>
+  <data name="RemainingStockLabel" xml:space="preserve"><value>STOCK RESTANT (TOTAL)</value></data>
+  <data name="DistributionProgress" xml:space="preserve"><value>Évolution de la Distribution</value></data>
+  <data name="LatestDistributions" xml:space="preserve"><value>Dernières Distributions Validées</value></data>
+  <data name="Reached" xml:space="preserve"><value>Déjà servis</value></data>
+  <data name="NotReached" xml:space="preserve"><value>Non servis</value></data>
+  <data name="NoDataFound" xml:space="preserve"><value>Aucune donnée disponible.</value></data>
+
+  <data name="NewCampaign" xml:space="preserve"><value>Nouvelle Campagne</value></data>
+  <data name="Entana hozaraina" xml:space="preserve"><value>Articles à distribuer</value></data>
+  <data name="Tahiry sisa" xml:space="preserve"><value>Stock restant</value></data>
+  <data name="voazara" xml:space="preserve"><value>distribué(s)</value></data>
+  <data name="DeleteConfirm" xml:space="preserve"><value>Voulez-vous vraiment supprimer cette campagne ?</value></data>
+  <data name="StatusActive" xml:space="preserve"><value>En cours</value></data>
+  <data name="StatusClosed" xml:space="preserve"><value>Terminée</value></data>
+  <data name="StatusOutOfStock" xml:space="preserve"><value>Rupture de stock totale</value></data>
+
+  <data name="AgentCreatedTitle" xml:space="preserve">
+    <value>Compte Agent Créé !</value>
+  </data>
+  <data name="GiveQRCodeInstruction" xml:space="preserve">
+    <value>Donnez ce code QR à pour sa connexion :</value>
+  </data>
+
+  <data name="CreateAgentTitle" xml:space="preserve"><value>Créer un compte Agent</value></data>
+  <data name="FullNamePlaceholder" xml:space="preserve"><value>Ex: Rabe Jean</value></data>
+  <data name="UsernamePlaceholder" xml:space="preserve"><value>Nom d'utilisateur</value></data>
+  <data name="PasswordLabel" xml:space="preserve"><value>Mot de passe (provisoire)</value></data>
+  <data name="SaveAndGenerateQR" xml:space="preserve"><value>Créer et Générer le QR Code</value></data>
+
+  <data name="FullNameRequired" xml:space="preserve">
+    <value>Le nom complet est obligatoire</value>
+  </data>
+  <data name="UsernameRequired" xml:space="preserve">
+    <value>Le nom d'utilisateur est obligatoire</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Le mot de passe est obligatoire</value>
+  </data>
+
+  <data name="AddCitizen" xml:space="preserve"><value>Ajouter un nouveau citoyen</value></data>
+  <data name="CIN" xml:space="preserve"><value>Carte d'Identité (CIN)</value></data>
+  <data name="Phone" xml:space="preserve"><value>Numéro de téléphone</value></data>
+  <data name="LastName" xml:space="preserve"><value>Nom</value></data>
+  <data name="FirstName" xml:space="preserve"><value>Prénom(s)</value></data>
+  <data name="Fokontany" xml:space="preserve"><value>Quartier (Fokontany)</value></data>
+  <data name="Address" xml:space="preserve"><value>Adresse de résidence</value></data>
+  <data name="CINRequired" xml:space="preserve"><value>Le numéro CIN est obligatoire</value></data>
+  <data name="PhoneRequired" xml:space="preserve"><value>Le numéro de téléphone est obligatoire</value></data>
+  <data name="LastNameRequired" xml:space="preserve"><value>Le nom est obligatoire</value></data>
+  <data name="FirstNameRequired" xml:space="preserve"><value>Le prénom est obligatoire</value></data>
+  <data name="NeighborhoodRequired" xml:space="preserve"><value>Le quartier est obligatoire</value></data>
+  <data name="AddressRequired" xml:space="preserve"><value>L'adresse est obligatoire</value></data>
+
+  <data name="AccessDeniedTitle" xml:space="preserve"><value>Accès refusé</value></data>
+  <data name="AccessDeniedHeader" xml:space="preserve"><value>Accès non autorisé</value></data>
+  <data name="AccessDeniedMessage" xml:space="preserve"><value>Désolé, cette page est réservée aux Administrateurs uniquement. Les Agents peuvent scanner les distributions mais ne peuvent pas modifier les paramètres du système.</value></data>
+  <data name="AgentDashboardLink" xml:space="preserve"><value>Tableau de bord Agent</value></data>
+  <data name="Logout" xml:space="preserve"><value>Se déconnecter</value></data>
+
+  <data name="StockManagementTitle" xml:space="preserve"><value>Gestion du Stock</value></data>
+  <data name="NeighborhoodStock" xml:space="preserve"><value>Stock du Quartier (Fokontany)</value></data>
+  <data name="AddNewItem" xml:space="preserve"><value>Ajouter un nouvel article</value></data>
+  <data name="LowStockAlert" xml:space="preserve"><value>Stock faible !</value></data>
+  <data name="ExpiredAlert" xml:space="preserve"><value>Expiré !</value></data>
+  <data name="CurrentQuantity" xml:space="preserve"><value>Quantité actuelle</value></data>
+  <data name="ExpiryDateLabel" xml:space="preserve"><value>Date d'expiration</value></data>
+  <data name="NoStockItemsFound" xml:space="preserve"><value>Aucun article trouvé dans le stock.</value></data>
+</root>

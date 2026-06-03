@@ -1,0 +1,73 @@
+@model SocialGasy.Models.User
+@{
+    ViewData["Title"] = "Création de Chef Régional";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-primary text-white p-4 rounded-top-4 border-0">
+                    <h4 class="mb-0"><i class="bi bi-person-plus-fill me-2"></i> Ajouter un Nouveau Chef Régional</h4>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form asp-action="CreateChef" asp-controller="Admin" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+                        <input type="hidden" asp-for="Role" value="ChefRegional" />
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Nom Complet</label>
+                                <input asp-for="FullName" class="form-control form-control-lg rounded-3" placeholder="Ex: Rakoto Be" required />
+                                <span asp-validation-for="FullName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Nom d'utilisateur</label>
+                                <input asp-for="Username" class="form-control form-control-lg rounded-3" placeholder="Ex: rakoto123" required />
+                                <span asp-validation-for="Username" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Numéro CIN</label>
+                                <input asp-for="Cin" class="form-control form-control-lg rounded-3" placeholder="123456789012" required />
+                                <span asp-validation-for="Cin" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Téléphone</label>
+                                <input asp-for="PhoneNumber" class="form-control form-control-lg rounded-3" placeholder="034 00 000 00" required />
+                                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Adresse</label>
+                                <input asp-for="Address" class="form-control form-control-lg rounded-3" placeholder="Ex: Antananarivo" required />
+                                <span asp-validation-for="Address" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Adresse Email</label>
+                                <input asp-for="Email" type="email" class="form-control form-control-lg rounded-3" placeholder="chef@gmail.com" required />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Mot de passe</label>
+                                <input asp-for="Password" type="password" class="form-control form-control-lg rounded-3" required />
+                                <span asp-validation-for="Password" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-action="ListChefs" class="btn btn-outline-secondary btn-lg px-4 rounded-3">Retour</a>
+                            <button type="submit" class="btn btn-success btn-lg px-4 rounded-3">
+                                <i class="bi bi-save me-2"></i> Enregistrer le Chef
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

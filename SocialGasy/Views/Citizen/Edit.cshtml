@@ -1,0 +1,18 @@
+@model SocialGasy.Models.Citizen
+@{ ViewData["Title"] = "Modifier le Citoyen"; }
+
+<div class="container py-5">
+    <h2>Modifier les informations</h2>
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="Id" />
+        <div class="mb-3">
+            <label asp-for="LastName" class="form-label">Nom</label>
+            <input asp-for="LastName" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="FirstName" class="form-label">Prénom</label>
+            <input asp-for="FirstName" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </form>
+</div>

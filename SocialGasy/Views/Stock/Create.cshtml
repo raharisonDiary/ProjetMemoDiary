@@ -1,0 +1,107 @@
+@model SocialGasy.Models.Stock
+@using Microsoft.Extensions.Localization
+@using SocialGasy
+@inject IStringLocalizer<SharedResource> Localizer
+
+@{
+    ViewData["Title"] = Localizer["AddNewItem"];
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <a asp-action="Index" class="btn btn-link text-decoration-none text-muted mb-3 p-0">
+                <i class="bi bi-arrow-left"></i> Hiverina amin'ny lisitra
+            </a>
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden animate__animated animate__fadeInUp">
+                <div class="card-header bg-primary bg-gradient text-white p-4 border-0">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-white bg-opacity-20 p-3 rounded-circle me-3">
+                            <i class="bi bi-box-seam fs-3"></i>
+                        </div>
+                        <div>
+                            <h3 class="fw-bold mb-0">@Localizer["AddNewItem"]</h3>
+                            <p class="mb-0 opacity-75 small">Fenoy tsara ny mombamomba ny entana vaovao hampidirina.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label asp-for="ItemName" class="form-label fw-bold text-secondary small text-uppercase">Anaran'ny Entana</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-tag text-primary"></i></span>
+                                    <input asp-for="ItemName" class="form-control border-start-0 ps-0 shadow-none" placeholder="Ohatra: Vary mora" required />
+                                </div>
+                                <span asp-validation-for="ItemName" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="BatchNumber" class="form-label fw-bold text-secondary small text-uppercase">Laharana (Batch/Lot)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-hash text-primary"></i></span>
+                                    <input asp-for="BatchNumber" class="form-control border-start-0 ps-0 shadow-none" placeholder="Ohatra: LOT-2026-001" required />
+                                </div>
+                                <span asp-validation-for="BatchNumber" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label asp-for="Quantity" class="form-label fw-bold text-secondary small text-uppercase">Isany (Quantity)</label>
+                                <input asp-for="Quantity" type="number" step="0.01" min="1" class="form-control shadow-none" required />
+                                <span asp-validation-for="Quantity" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label asp-for="Unit" class="form-label fw-bold text-secondary small text-uppercase">Unité</label>
+                                <select asp-for="Unit" class="form-select shadow-none">
+                                    <option value="kg">Kilogramme (kg)</option>
+                                    <option value="L">Litre (L)</option>
+                                    <option value="Sac">Gony (Sac)</option>
+                                    <option value="Boite">Boite</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label asp-for="ExpiryDate" class="form-label fw-bold text-secondary small text-uppercase">Daty lany daty</label>
+                                <input asp-for="ExpiryDate" type="date" class="form-control shadow-none" value="@DateTime.Now.AddMonths(6).ToString("yyyy-MM-dd")" required />
+                                <span asp-validation-for="ExpiryDate" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Fokontany" class="form-label fw-bold text-secondary small text-uppercase">Fokontany Handraharaha</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-geo-alt text-primary"></i></span>
+                                    <input asp-for="Fokontany" class="form-control border-start-0 ps-0 shadow-none" placeholder="Ohatra: Ambanidia" required />
+                                </div>
+                                <span asp-validation-for="Fokontany" class="text-danger small"></span>
+                                <div class="form-text mt-2"><i class="bi bi-info-circle me-1"></i> Ity entana ity dia ho hita ao amin'ny fokontany voatondro ihany.</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold py-3 shadow-hover rounded-pill">
+                                <i class="bi bi-cloud-arrow-up me-2"></i> TEHIRIZINA NY TAHIRY
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .shadow-hover { transition: all 0.3s ease; }
+    .shadow-hover:hover { transform: translateY(-2px); box-shadow: 0 0.5rem 1rem rgba(13, 110, 253, 0.2) !important; }
+    .form-control:focus, .form-select:focus { border-color: #0d6efd; }
+    .input-group-text { border-color: #dee2e6; }
+</style>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

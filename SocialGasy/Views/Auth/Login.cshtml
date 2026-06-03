@@ -1,0 +1,175 @@
+@{
+    ViewData["Title"] = "Connexion - SocialGasy";
+    Layout = "_Layout";
+}
+
+<style>
+    .login-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-color: #f8f9fa;
+        padding: 20px;
+    }
+    .login-card {
+        display: flex;
+        width: 100%;
+        max-width: 900px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        overflow: hidden;
+        min-height: 500px;
+    }
+    .form-side {
+        width: 50%;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        transition: transform 0.5s ease;
+    }
+    .info-side {
+        width: 50%;
+        padding: 40px;
+        background-color: #0d1128;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        transition: transform 0.5s ease;
+    }
+    @@media (max-width: 768px) {
+        .login-card { flex-direction: column; }
+        .form-side, .info-side { width: 100%; padding: 30px; }
+    }
+    .switched .form-side { order: 2; }
+    .switched .info-side { order: 1; }
+</style>
+
+<div class="login-container">
+    <div class="login-card" id="mainCard">
+        <div class="form-side" id="formSide">
+            <h2 id="titleAction" class="fw-bold mb-4">Connexion Admin</h2>
+            <div id="adminForm">
+                <form asp-controller="Account" asp-action="Login" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <input type="text" name="username" class="form-control" placeholder="Nom d'utilisateur" required />
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" name="password" class="form-control" placeholder="Mot de passe" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">SE CONNECTER</button>
+                </form>
+            </div>
+            <div id="agentForm" class="d-none">
+                <div id="reader" style="width: 100%; min-height: 250px;"></div>
+                <div class="mt-3">
+                    <label class="form-label small text-muted">Ou choisissez une image QR :</label>
+                    <input type="file" id="qr-input-file" accept="image/*" class="form-control">
+                </div>
+                <div id="statusMessage" class="alert alert-info mt-3 d-none">Lecture en cours...</div>
+            </div>
+            <button class="btn btn-link w-100 mt-3" onclick="toggleMode()" id="toggleBtn">Se connecter en tant qu'Agent</button>
+        </div>
+
+        <div class="info-side" id="infoSide">
+            <h2 class="fw-bold">SOCIALGASY</h2>
+            <p id="infoDesc">Plateforme de gestion administrative sécurisée.</p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const html5QrCode = new Html5Qrcode("reader");
+        let isAgentMode = false;
+
+        function toggleMode() {
+            isAgentMode = !isAgentMode;
+            const card = document.getElementById('mainCard');
+            const title = document.getElementById('titleAction');
+            const adminForm = document.getElementById('adminForm');
+            const agentForm = document.getElementById('agentForm');
+            const toggleBtn = document.getElementById('toggleBtn');
+            const infoDesc = document.getElementById('infoDesc');
+
+            if (isAgentMode) {
+                card.classList.add('switched');
+                title.innerText = "Connexion Agent";
+                adminForm.classList.add('d-none');
+                agentForm.classList.remove('d-none');
+                toggleBtn.innerText = "Se connecter en tant qu'Admin";
+                infoDesc.innerText = "Scannez votre QR code pour accéder à votre espace.";
+                startCamera();
+            } else {
+                card.classList.remove('switched');
+                title.innerText = "Connexion Admin";
+                adminForm.classList.remove('d-none');
+                agentForm.classList.add('d-none');
+                toggleBtn.innerText = "Se connecter en tant qu'Agent";
+                infoDesc.innerText = "Plateforme de gestion administrative sécurisée.";
+                if(html5QrCode.isScanning) html5QrCode.stop();
+            }
+        }
+
+        function startCamera() {
+            html5QrCode.start(
+                { facingMode: "environment" }, 
+                { fps: 10, qrbox: { width: 250, height: 250 } },
+                (decodedText) => processScan(decodedText)
+            ).catch(err => console.log(err));
+        }
+
+        function processScan(token) {
+            if (html5QrCode.isScanning) {
+                html5QrCode.stop().then(() => sendScanData(token));
+            } else {
+                sendScanData(token);
+            }
+        }
+
+        function sendScanData(token) {
+            $('#statusMessage').removeClass('d-none').text('Vérification du code...');
+            $.ajax({
+                url: '@Url.Action("LoginByScan", "Account")',
+                type: 'POST',
+                data: { token: token.trim() },
+                headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                success: function(res) {
+                    if (res.success) {
+                        window.location.href = res.redirectUrl;
+                    } else {
+                        $('#statusMessage').addClass('d-none');
+                        Swal.fire('Erreur', res.message, 'error').then(startCamera);
+                    }
+                },
+                error: function() {
+                    $('#statusMessage').addClass('d-none');
+                    Swal.fire('Erreur', 'Connexion impossible. Vérifiez votre réseau !', 'error').then(startCamera);
+                }
+            });
+        }
+
+        $('#qr-input-file').on('change', e => {
+            if (e.target.files.length == 0) return;
+            const file = e.target.files[0];
+            if (html5QrCode.isScanning) {
+                html5QrCode.stop().then(() => {
+                    html5QrCode.scanFile(file, true)
+                        .then(decodedText => processScan(decodedText))
+                        .catch(() => Swal.fire('Erreur', 'QR Code non détecté.', 'error'));
+                });
+            } else {
+                html5QrCode.scanFile(file, true)
+                    .then(decodedText => processScan(decodedText))
+                    .catch(() => Swal.fire('Erreur', 'QR Code non détecté.', 'error'));
+            }
+        });
+    </script>
+}

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <data name="Dashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="Mponina" xml:space="preserve"><value>Mponina</value></data>
+  <data name="Fanampiana" xml:space="preserve"><value>Fanampiana</value></data>
+  <data name="Statistiques" xml:space="preserve"><value>Statistiques</value></data>
+  <data name="Mpikambana" xml:space="preserve"><value>Mpikambana</value></data>
+  <data name="Paramètres" xml:space="preserve"><value>Paramètres</value></data>
+  <data name="Hivoaka" xml:space="preserve"><value>Hivoaka</value></data>
+  <data name="Midira" xml:space="preserve"><value>Midira</value></data>
+  <data name="Rafitra Fitantanana" xml:space="preserve"><value>Rafitra Fitantanana ny Fizarana</value></data>
+
+  <data name="DashboardTitle" xml:space="preserve"><value>Dashboard - Social Gasy</value></data>
+  <data name="WelcomeTitle" xml:space="preserve"><value>Tonga soa ao amin'ny Social Gasy</value></data>
+  <data name="WelcomeSubtitle" xml:space="preserve"><value>Rafitra fitantanana ny fizarana (Temps réel)</value></data>
+  <data name="CitizensLabel" xml:space="preserve"><value>Mponina</value></data>
+  <data name="CampaignsLabel" xml:space="preserve"><value>Hetsika</value></data>
+  <data name="CoverageRateLabel" xml:space="preserve"><value>Taux de Couverture</value></data>
+  <data name="ViewList" xml:space="preserve"><value>Hijery ny lisitra</value></data>
+  <data name="StartCampaign" xml:space="preserve"><value>Hanomboka hetsika</value></data>
+  <data name="ViewStats" xml:space="preserve"><value>Hijery Statistiques</value></data>
+  <data name="QuickActions" xml:space="preserve"><value>Quick Actions</value></data>
+  <data name="AddCitizen" xml:space="preserve"><value>Hampiditra Mponina Vaovao</value></data>
+  <data name="ScanQR" xml:space="preserve"><value>Hanao Scan QR Code</value></data>
+  <data name="CreateCampaign" xml:space="preserve"><value>Hamorona hetsika</value></data>
+  <data name="LatestCampaigns" xml:space="preserve"><value>Hetsika farany</value></data>
+  <data name="ViewAll" xml:space="preserve"><value>Jereo daholo</value></data>
+
+  <data name="CitizenListTitle" xml:space="preserve"><value>Lisitry ny Mponina</value></data>
+  <data name="CitizenListSubtitle" xml:space="preserve"><value>Ireo olona efa voasoratra anarana ato amin'ny rafitra</value></data>
+  <data name="AddNew" xml:space="preserve"><value>Hampiditra vaovao</value></data>
+  <data name="ColCIN" xml:space="preserve"><value>Laharana CIN</value></data>
+  <data name="ColFullName" xml:space="preserve"><value>Anarana feno</value></data>
+  <data name="ColFokontany" xml:space="preserve"><value>Fokontany</value></data>
+  <data name="ColPhone" xml:space="preserve"><value>Finday</value></data>
+  <data name="ColQRCode" xml:space="preserve"><value>QR Code</value></data>
+  <data name="ColAction" xml:space="preserve"><value>Action</value></data>
+  <data name="NoCitizensFound" xml:space="preserve"><value>Mbola tsy misy mponina voasoratra ao anaty database.</value></data>
+  <data name="None" xml:space="preserve"><value>Tsy misy</value></data>
+  <data name="ClickToEnlarge" xml:space="preserve"><value>Tsindrio raha hihalehibe</value></data>
+  <data name="View" xml:space="preserve"><value>Jereo feno</value></data>
+
+  <data name="Save" xml:space="preserve"><value>Tehirizina</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Hanafoana</value></data>
+  <data name="Edit" xml:space="preserve"><value>Hanova</value></data>
+  <data name="Delete" xml:space="preserve"><value>Hamafa</value></data>
+  <data name="Search" xml:space="preserve"><value>Hitady...</value></data>
+  <data name="BackToList" xml:space="preserve"><value>Hiverina amin'ny lisitra</value></data>
+  <data name="SaveAndGenerateQR" xml:space="preserve"><value>Tehirizina sy Hamokatra QR Code</value></data>
+
+  <data name="CIN" xml:space="preserve"><value>Laharana CIN</value></data>
+  <data name="Phone" xml:space="preserve"><value>Finday (ho an'ny OTP)</value></data>
+  <data name="LastName" xml:space="preserve"><value>Anarana</value></data>
+  <data name="FirstName" xml:space="preserve"><value>Fanampin'anarana</value></data>
+  <data name="Fokontany" xml:space="preserve"><value>Fokontany</value></data>
+  <data name="Address" xml:space="preserve"><value>Adiresy mazava</value></data>
+  <data name="AddressRequired" xml:space="preserve"><value>Mila fenoina ny adiresy.</value></data>
+
+  <data name="DashboardTitle" xml:space="preserve"><value>Dashboard ny Fokontany</value></data>
+  <data name="TotalCitizensLabel" xml:space="preserve"><value>TOTALIN'NY MPONINA</value></data>
+  <data name="BeneficiariesLabel" xml:space="preserve"><value>EFA NAHAZO FANAMPIANA</value></data>
+  <data name="RemainingStockLabel" xml:space="preserve"><value>TAHIRY SISA (TOTAL)</value></data>
+  <data name="DistributionProgress" xml:space="preserve"><value>Fivoaran'ny Fizarana</value></data>
+  <data name="LatestDistributions" xml:space="preserve"><value>Fizarana Farany Voamarina</value></data>
+  <data name="Reached" xml:space="preserve"><value>Efa nahazo</value></data>
+  <data name="NotReached" xml:space="preserve"><value>Mbola tsy nahazo</value></data>
+  <data name="NoDataFound" xml:space="preserve"><value>Tsy misy fizarana hita.</value></data>
+
+  <data name="Hetsika Fizarana" xml:space="preserve"><value>Hetsika Fizarana</value></data>
+  <data name="NewCampaign" xml:space="preserve"><value>Hetsika Vaovao</value></data>
+  <data name="Entana hozaraina" xml:space="preserve"><value>Entana hozaraina</value></data>
+  <data name="Tahiry sisa" xml:space="preserve"><value>Tahiry sisa</value></data>
+  <data name="voazara" xml:space="preserve"><value>voazara</value></data>
+  <data name="DeleteConfirm" xml:space="preserve"><value>Tena hamafa ity hetsika ity ve ianao?</value></data>
+  <data name="StatusActive" xml:space="preserve"><value>Mandeha</value></data>
+  <data name="StatusClosed" xml:space="preserve"><value>Nijanona</value></data>
+  <data name="StatusOutOfStock" xml:space="preserve"><value>Lany ny tahiry rehetra</value></data>
+
+  <data name="AgentCreatedTitle" xml:space="preserve">
+    <value>Kaonty Agent Voaforona!</value>
+  </data>
+  <data name="GiveQRCodeInstruction" xml:space="preserve">
+    <value>Omeo an'i ity QR Code ity hidirany:</value>
+  </data>
+
+  <data name="CreateAgentTitle" xml:space="preserve"><value>Mamorona Kaonty Agent</value></data>
+  <data name="FullNamePlaceholder" xml:space="preserve"><value>Ohatra: Rabe Jean</value></data>
+  <data name="UsernamePlaceholder" xml:space="preserve"><value>Solon'anarana</value></data>
+  <data name="PasswordLabel" xml:space="preserve"><value>Teny miafina (vonjimaika)</value></data>
+  <data name="SaveAndGenerateQR" xml:space="preserve"><value>Mamorona sy Hamoaka QR Code</value></data>
+
+  <data name="FullNameRequired" xml:space="preserve">
+    <value>Tsy maintsy fenoina ny anarana feno</value>
+  </data>
+  <data name="UsernameRequired" xml:space="preserve">
+    <value>Tsy maintsy fenoina ny anarana (Username)</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Tsy maintsy fenoina ny teny miafina</value>
+  </data>
+
+  <data name="AddCitizen" xml:space="preserve"><value>Hampiditra Mponina Vaovao</value></data>
+  <data name="CIN" xml:space="preserve"><value>Karapanondro (CIN)</value></data>
+  <data name="Phone" xml:space="preserve"><value>Laharana finday</value></data>
+  <data name="LastName" xml:space="preserve"><value>Anarana</value></data>
+  <data name="FirstName" xml:space="preserve"><value>Fanampin'anarana</value></data>
+  <data name="Fokontany" xml:space="preserve"><value>Fokontany</value></data>
+  <data name="Address" xml:space="preserve"><value>Adiresy fonenana</value></data>
+  <data name="CINRequired" xml:space="preserve"><value>Tsy maintsy fenoina ny CIN</value></data>
+  <data name="PhoneRequired" xml:space="preserve"><value>Tsy maintsy fenoina ny laharana finday</value></data>
+  <data name="LastNameRequired" xml:space="preserve"><value>Tsy maintsy fenoina ny anarana</value></data>
+  <data name="FirstNameRequired" xml:space="preserve"><value>Tsy maintsy fenoina ny fanampin'anarana</value></data>
+  <data name="NeighborhoodRequired" xml:space="preserve"><value>Tsy maintsy fenoina ny fokontany</value></data>
+  <data name="AddressRequired" xml:space="preserve"><value>Tsy maintsy fenoina ny adiresy</value></data>
+
+  <data name="AccessDeniedTitle" xml:space="preserve"><value>Fidirana voasakana</value></data>
+  <data name="AccessDeniedHeader" xml:space="preserve"><value>Tsy mahazo alalana</value></data>
+  <data name="AccessDeniedMessage" xml:space="preserve"><value>Miala tsiny, ity pejy ity dia voatokana ho an'ny Admin ihany. Ny Agent dia afaka manao scan fizarana saingy tsy afaka manova ny fikirakirana ny rafitra.</value></data>
+  <data name="AgentDashboardLink" xml:space="preserve"><value>Dashboard Agent</value></data>
+  <data name="Logout" xml:space="preserve"><value>Hivoaka (Logout)</value></data>
+
+  <data name="StockManagementTitle" xml:space="preserve"><value>Fitantanana ny Tahiry</value></data>
+  <data name="NeighborhoodStock" xml:space="preserve"><value>Tahiry ao amin'ny Fokontany</value></data>
+  <data name="AddNewItem" xml:space="preserve"><value>Hampiditra Entana Vaovao</value></data>
+  <data name="LowStockAlert" xml:space="preserve"><value>Ho lany!</value></data>
+  <data name="ExpiredAlert" xml:space="preserve"><value>Lany daty!</value></data>
+  <data name="CurrentQuantity" xml:space="preserve"><value>Isany ankehitriny</value></data>
+  <data name="ExpiryDateLabel" xml:space="preserve"><value>Lany daty ny</value></data>
+  <data name="NoStockItemsFound" xml:space="preserve"><value>Mbola tsy misy entana voasoratra ao amin'ny tahiry.</value></data>
+</root>

@@ -1,0 +1,157 @@
+@{
+    ViewData["Title"] = "About Social-Gasy";
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-end mb-4 animate__animated animate__fadeIn">
+        <div class="btn-group p-1 bg-white shadow-sm rounded-pill border" role="group">
+            <button type="button" class="btn btn-primary rounded-pill px-4 shadow-sm" id="btn-mg" onclick="changeLang('mg')">Malagasy</button>
+            <button type="button" class="btn btn-light rounded-pill px-4 border-0 text-muted" id="btn-fr" onclick="changeLang('fr')">Français</button>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden animate__animated animate__fadeInUp">
+        <div class="card-body p-4 p-md-5">
+            
+            <div id="content-area"></div>
+
+            <hr class="my-5 opacity-10">
+
+            <h5 class="fw-bold mb-4 text-center text-uppercase small tracking-wider text-muted" id="tech-title">Teknolojia nampiasaina</h5>
+            <div class="row row-cols-2 row-cols-md-4 g-3 text-center mb-5">
+                <div class="col">
+                    <div class="p-3 border rounded-4 bg-primary bg-opacity-10 border-primary border-opacity-10 shadow-hover transition-all h-100">
+                        <i class="bi bi-code-slash d-block fs-3 text-primary mb-2"></i>
+                        <span class="small fw-bold">.NET 8 MVC</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="p-3 border rounded-4 bg-success bg-opacity-10 border-success border-opacity-10 shadow-hover transition-all h-100">
+                        <i class="bi bi-database d-block fs-3 text-success mb-2"></i>
+                        <span class="small fw-bold">MongoDB</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="p-3 border rounded-4 bg-warning bg-opacity-10 border-warning border-opacity-10 shadow-hover transition-all h-100">
+                        <i class="bi bi-qr-code-scan d-block fs-3 text-warning mb-2 text-dark"></i>
+                        <span class="small fw-bold">QR System</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="p-3 border rounded-4 bg-info bg-opacity-10 border-info border-opacity-10 shadow-hover transition-all h-100">
+                        <i class="bi bi-bootstrap-fill d-block fs-3 text-info mb-2"></i>
+                        <span class="small fw-bold">Bootstrap 5</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dev-profile-area"></div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var translations = {
+            mg: {
+                title: "Social-Gasy",
+                subtitle: "Rafitra Itantanana ny Fizarana Fanampiana",
+                desc: "Ny <strong>Social-Gasy</strong> dia vahaolana nomerika namboarina mba hamongorana ny kolikoly sy ny tsy fahatomombanana amin'ny fizarana vatsy (Vatsy Tsinjo, Vary Mora, sns).",
+                features: [
+                    "<strong>Tsy misy doublon:</strong> Ny laharan'ny CIN dia voamarina ho tokana.",
+                    "<strong>QR Code System:</strong> Fanamarinana haingana amin'ny alàlan'ny scan.",
+                    "<strong>Traceability:</strong> Fahalalana ny toerana (GPS) sy ny fotoana."
+                ],
+                techTitle: "Teknolojia nampiasaina",
+                devRole: "Mpanorina & Mpamorona",
+                devBio: "Ity tetikasa ity dia namboarina tanteraka tamin'ny <strong>C# (.NET 8)</strong> ho porofon'ny fahaiza-manao eo amin'ny fampandrosoana rindrambaiko matanjaka sy azo antoka."
+            },
+            fr: {
+                title: "Social-Gasy",
+                subtitle: "Gestion Transparente des Aides Sociales",
+                desc: "<strong>Social-Gasy</strong> est une plateforme visant à digitaliser le flux de distribution d'aides humanitaires au niveau des Fokontany de Madagascar.",
+                features: [
+                    "<strong>Anti-Fraude:</strong> Vérification stricte via QR Code et CIN unique.",
+                    "<strong>Gestion de Stock:</strong> Suivi en temps réel des lots de distribution.",
+                    "<strong>Audit Trail:</strong> Traçabilité complète des actions (GPS & Heure)."
+                ],
+                techTitle: "Technologies utilisées",
+                devRole: "Fondateur & Développeur",
+                devBio: "Ce projet a été entièrement conçu avec <strong>C# (.NET 8)</strong> comme preuve de compétence dans le développement de logiciels robustes et sécurisés."
+            }
+        };
+
+        function changeLang(lang) {
+            var data = translations[lang];
+            
+            // 1. Update Tech Title
+            document.getElementById('tech-title').innerText = data.techTitle;
+
+            // 2. Build Features HTML
+            var featuresHtml = '<div class="row mt-4">';
+            for (var i = 0; i < data.features.length; i++) {
+                featuresHtml += 
+                    '<div class="col-md-4 mb-3">' +
+                        '<div class="p-3 border-start border-4 border-primary bg-white shadow-sm h-100 shadow-hover transition-all">' +
+                            '<span class="small">' + data.features[i] + '</span>' +
+                        '</div>' +
+                    '</div>';
+            }
+            featuresHtml += '</div>';
+
+            // 3. Update Content Area
+            document.getElementById('content-area').innerHTML = 
+                '<div class="animate__animated animate__fadeIn">' +
+                    '<h1 class="display-5 fw-bold text-primary mb-2">' + data.title + '</h1>' +
+                    '<span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill mb-4">' + data.subtitle + '</span>' +
+                    '<p class="lead text-muted mb-4">' + data.desc + '</p>' +
+                    featuresHtml +
+                '</div>';
+
+            // 4. Update Developer Profile with CLICKABLE LINKS
+            document.getElementById('dev-profile-area').innerHTML = 
+                '<div class="p-4 rounded-4 border border-primary border-opacity-25 bg-light animate__animated animate__fadeIn">' +
+                    '<div class="row align-items-center">' +
+                        '<div class="col-md-2 text-center text-md-start mb-3 mb-md-0">' +
+                            '<div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center shadow" style="width: 80px; height: 80px;">' +
+                                '<i class="bi bi-person-badge fs-1"></i>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="col-md-10">' +
+                            '<h6 class="fw-bold text-primary text-uppercase small mb-1">' + data.devRole + '</h6>' +
+                            '<h4 class="fw-bold mb-2">RAHARISON Narovana Lanja Diarisoa Alain</h4>' +
+                            '<p class="text-muted small mb-3">' + data.devBio + '</p>' +
+                            '<div class="d-flex flex-wrap gap-3">' +
+                                '<a href="mailto:raharisondiary06@gmail.com" class="small text-dark text-decoration-none contact-link"><i class="bi bi-envelope-fill text-primary me-1"></i> raharisondiary06@gmail.com</a>' +
+                                '<a href="tel:0382955465" class="small text-dark text-decoration-none contact-link"><i class="bi bi-telephone-fill text-primary me-1"></i> 0382955465</a>' +
+                                '<a href="https://www.facebook.com/profile.php?id=100085448356191" target="_blank" class="small text-dark text-decoration-none contact-link"><i class="bi bi-facebook text-primary me-1"></i> Dhyar raharison</a>' +
+                                '<a href="https://wa.me/261382955465" target="_blank" class="small text-dark text-decoration-none contact-link"><i class="bi bi-whatsapp text-success me-1"></i> 0382955465</a>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+
+            // 5. Toggle Active Button Class
+            if (lang === 'mg') {
+                document.getElementById('btn-mg').className = 'btn btn-primary rounded-pill px-4 shadow-sm';
+                document.getElementById('btn-fr').className = 'btn btn-light rounded-pill px-4 border-0 text-muted';
+            } else {
+                document.getElementById('btn-fr').className = 'btn btn-primary rounded-pill px-4 shadow-sm';
+                document.getElementById('btn-mg').className = 'btn btn-light rounded-pill px-4 border-0 text-muted';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            changeLang('mg');
+        });
+    </script>
+}
+
+<style>
+    .shadow-hover:hover { transform: translateY(-5px); box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1) !important; }
+    .transition-all { transition: all 0.3s ease; }
+    .tracking-wider { letter-spacing: 0.1em; }
+    #content-area { min-height: 300px; }
+    .contact-link:hover { color: #0d6efd !important; text-decoration: underline !important; }
+</style>

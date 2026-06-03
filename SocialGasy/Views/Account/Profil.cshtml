@@ -1,0 +1,79 @@
+@model SocialGasy.Models.User
+
+@{
+    ViewData["Title"] = "Mon Profil";
+    string badgeClass = Model.Role switch
+    {
+        "Admin" => "bg-danger",
+        "ChefRegional" => "bg-warning text-dark",
+        _ => "bg-info"
+    };
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-primary text-white p-4 rounded-top-4 border-0 text-center">
+                    <h4 class="mb-0"><i class="bi bi-person-circle me-2"></i> Informations du Profil</h4>
+                </div>
+                
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto shadow-sm" style="width: 100px; height: 100px;">
+                            <i class="bi bi-person-fill display-2 text-primary"></i>
+                        </div>
+                        <h3 class="mt-3 fw-bold">@Model.FullName</h3>
+                        <span class="badge @badgeClass rounded-pill px-3 py-2 text-uppercase">@Model.Role</span>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    @if (!string.IsNullOrEmpty(Model.Username)) {
+                        <div class="row mb-3">
+                            <div class="col-sm-5 fw-bold text-muted">Username</div>
+                            <div class="col-sm-7 text-dark fw-medium">@Model.Username</div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Email)) {
+                        <div class="row mb-3">
+                            <div class="col-sm-5 fw-bold text-muted">Email</div>
+                            <div class="col-sm-7 text-dark fw-medium">@Model.Email</div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.PhoneNumber)) {
+                        <div class="row mb-3">
+                            <div class="col-sm-5 fw-bold text-muted">Téléphone</div>
+                            <div class="col-sm-7 text-dark fw-medium">@Model.PhoneNumber</div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Cin)) {
+                        <div class="row mb-3">
+                            <div class="col-sm-5 fw-bold text-muted">CIN</div>
+                            <div class="col-sm-7 text-dark fw-medium">@Model.Cin</div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Address)) {
+                        <div class="row mb-3">
+                            <div class="col-sm-5 fw-bold text-muted">Adresse</div>
+                            <div class="col-sm-7 text-dark fw-medium">@Model.Address</div>
+                        </div>
+                    }
+                    <div class="row mb-3">
+                        <div class="col-sm-5 fw-bold text-muted">Membre depuis</div>
+                        <div class="col-sm-7 text-dark fw-medium">@Model.CreatedAt.ToString("dd/MM/yyyy")</div>
+                    </div>
+                </div>
+                
+                <div class="card-footer bg-light p-4 text-center border-0 rounded-bottom-4">
+                    <div class="d-grid gap-2 d-md-block">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary px-4 rounded-pill me-md-2">Retour</a>
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger px-4 rounded-pill">Déconnexion</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

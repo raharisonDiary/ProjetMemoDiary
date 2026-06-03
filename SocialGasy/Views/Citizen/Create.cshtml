@@ -1,0 +1,137 @@
+@model SocialGasy.Models.Citizen
+
+@{
+    ViewData["Title"] = "Enregistrer un Citoyen";
+}
+
+<style>
+    .card { border-radius: 20px; transition: 0.3s; }
+    .camera-container { border: 4px solid #fff; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+    .camera-overlay { position: absolute; top:0; left:0; width: 100%; height: 100%; border: 2px dashed rgba(255,255,255,0.5); pointer-events: none; z-index: 2; }
+    .form-control, .form-select { border-radius: 10px; padding: 12px; border: 1px solid #e1e1e1; background: #fcfcfc; }
+    .form-label { font-size: 0.85rem; font-weight: 600; color: #6c757d; margin-bottom: 0.5rem; }
+    .btn-primary { background: linear-gradient(135deg, #0d6efd, #6610f2); border: none; padding: 12px; }
+    #camera-badge { top: 10px; left: 10px; }
+    @@media (max-width: 767px) {
+        .border-end { border-right: none !important; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+    }
+</style>
+
+<div class="container py-4">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm mb-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header border-0 p-4 text-center text-white" style="background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%); border-top-left-radius: 20px; border-top-right-radius: 20px;">
+                    <h3 class="fw-bold mb-0"><i class="bi bi-person-plus-fill me-2"></i> Enregistrer un Citoyen</h3>
+                </div>
+                
+                <div class="card-body p-4 p-lg-5">
+                    <form asp-action="Create" method="post" id="citizenForm" autocomplete="off">
+                        @Html.AntiForgeryToken()
+
+                        <div class="row g-4">
+                            <div class="col-md-5 text-center border-end border-light">
+                                <label class="form-label d-block text-uppercase mb-3">Photo d'identité</label>
+                                <div class="camera-container mx-auto rounded-4 overflow-hidden position-relative mb-3 bg-dark" style="width: 240px; height: 240px;">
+                                    <div class="camera-overlay"></div>
+                                    <video id="webcam" autoplay playsinline class="w-100 h-100 object-fit-cover"></video>
+                                    <canvas id="photo-canvas" class="d-none"></canvas>
+                                    <img id="photo-preview" class="w-100 h-100 object-fit-cover d-none position-absolute top-0 start-0 z-3" />
+                                    <span id="camera-badge" class="position-absolute badge bg-danger bg-opacity-75 rounded-pill z-3">
+                                        <span class="spinner-grow spinner-grow-sm me-1"></span> LIVE
+                                    </span>
+                                </div>
+
+                                <div class="d-grid gap-2 px-4">
+                                    <button type="button" id="btn-capture" class="btn btn-primary rounded-pill shadow-sm"><i class="bi bi-camera-fill me-1"></i> Capturer</button>
+                                    <button type="button" id="btn-reset-camera" class="btn btn-outline-danger rounded-pill d-none"><i class="bi bi-arrow-clockwise me-1"></i> Recommencer</button>
+                                </div>
+                                <input type="hidden" asp-for="PhotoBase64" id="PhotoBase64" required />
+                            </div>
+
+                            <div class="col-md-7">
+                                <div class="mb-3">
+                                    <label asp-for="HouseholdId" class="form-label">Lier au Ménage</label>
+                                    <select asp-for="HouseholdId" asp-items="@ViewBag.Households" class="form-select" required>
+                                        <option value="">-- Choisir un ménage --</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="CIN" class="form-label">Numéro CIN</label>
+                                    <input asp-for="CIN" class="form-control" maxlength="12" placeholder="Ex: 123456789012" required />
+                                </div>
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6"><label class="form-label">Nom</label><input asp-for="LastName" class="form-control" required /></div>
+                                    <div class="col-md-6"><label class="form-label">Prénom</label><input asp-for="FirstName" class="form-control" required /></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Date de naissance</label>
+                                    <input asp-for="DateOfBirth" type="date" class="form-control" required />
+                                </div>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Sexe</label>
+                                        <select asp-for="Gender" class="form-select" required><option value="M">Masculin</option><option value="F">Féminin</option></select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Situation matrimoniale</label>
+                                        <select asp-for="MaritalStatus" class="form-select" required><option value="Célibataire">Célibataire</option><option value="Marié">Marié</option></select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm">Enregistrer le citoyen</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const video = document.getElementById('webcam'), canvas = document.getElementById('photo-canvas'), 
+              photoInput = document.getElementById('PhotoBase64'), btnCapture = document.getElementById('btn-capture'),
+              btnReset = document.getElementById('btn-reset-camera'), form = document.getElementById('citizenForm');
+
+        navigator.mediaDevices.getUserMedia({ video: { width: 400, height: 400 } }).then(s => video.srcObject = s);
+
+        btnCapture.onclick = () => {
+            const ctx = canvas.getContext('2d'); canvas.width = 300; canvas.height = 300;
+            ctx.drawImage(video, 0, 0, 300, 300);
+            photoInput.value = canvas.toDataURL('image/jpeg', 0.85);
+            document.getElementById('photo-preview').src = photoInput.value;
+            document.getElementById('photo-preview').classList.remove('d-none');
+            video.classList.add('d-none');
+            btnCapture.classList.add('d-none'); btnReset.classList.remove('d-none');
+        };
+
+        btnReset.onclick = () => {
+            photoInput.value = ""; video.classList.remove('d-none');
+            document.getElementById('photo-preview').classList.add('d-none');
+            btnCapture.classList.remove('d-none'); btnReset.classList.add('d-none');
+        };
+
+        form.onsubmit = function(e) {
+            if (!navigator.onLine) {
+                e.preventDefault();
+                const data = Object.fromEntries(new FormData(form).entries());
+                if (typeof storeOffline === 'function') {
+                    storeOffline('citizens', data);
+                    alert("Mode hors ligne : Enregistrement local effectué.");
+                    form.reset(); btnReset.onclick();
+                }
+                return false;
+            }
+            return true;
+        };
+    </script>
+}
