@@ -1,6 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using SocialGasy.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -22,43 +27,42 @@ public class SyncController : ControllerBase
     {
         if (payload == null)
         {
-            return BadRequest(new { message = "Payload tsy mety" });
+            return BadRequest(new { message = "Invalid payload" });
         }
 
         try
         {
-            // 1. Households Sync
             if (payload.Households?.Any() == true)
             {
                 var bulkOps = new List<WriteModel<Household>>();
                 foreach (var h in payload.Households)
                 {
-                    // Raha tsy misy ID, avelao i MongoDB hamorona (ObjectId vaovao)
-                    var filter = Builders<Household>.Filter.Eq(x => x.Id, h.Id);
+                    h.SyncStatus = "Synced";
+                    var filter = Builders<Household>.Filter.Eq(x => x.ClientGuid, h.ClientGuid);
                     bulkOps.Add(new ReplaceOneModel<Household>(filter, h) { IsUpsert = true });
                 }
                 await _households.BulkWriteAsync(bulkOps, new BulkWriteOptions { IsOrdered = false });
             }
 
-            // 2. Citizens Sync
             if (payload.Citizens?.Any() == true)
             {
                 var bulkOps = new List<WriteModel<Citizen>>();
                 foreach (var c in payload.Citizens)
                 {
-                    var filter = Builders<Citizen>.Filter.Eq(x => x.Id, c.Id);
+                    c.SyncStatus = "Synced";
+                    var filter = Builders<Citizen>.Filter.Eq(x => x.ClientGuid, c.ClientGuid);
                     bulkOps.Add(new ReplaceOneModel<Citizen>(filter, c) { IsUpsert = true });
                 }
                 await _citizens.BulkWriteAsync(bulkOps, new BulkWriteOptions { IsOrdered = false });
             }
 
-            _logger.LogInformation("Sync vita soa aman-tsara.");
-            return Ok(new { success = true, message = "Sync vita" });
+            _logger.LogInformation("Synchronization completed successfully.");
+            return Ok(new { success = true, message = "Synchronization completed" });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Nisy olana nandritra ny sync");
-            return StatusCode(500, new { message = "Hadisoana teo amin'ny server", details = ex.Message });
+            _logger.LogError(ex, "Error during synchronization");
+            return StatusCode(500, new { message = "Server error", details = ex.Message });
         }
     }
 }

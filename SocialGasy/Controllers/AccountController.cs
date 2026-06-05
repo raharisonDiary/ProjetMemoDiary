@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace SocialGasy.Controllers
 {
@@ -123,6 +125,47 @@ namespace SocialGasy.Controllers
 
             return View(user);
         }
+
+        [Authorize]
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> UpdateProfile(IFormFile? file, User model)
+{
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var user = await _users.Find(u => u.Id.ToString() == userId).FirstOrDefaultAsync();
+    
+    if (user == null) return NotFound();
+
+    if (file != null && file.Length > 0)
+    {
+        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/profiles");
+        if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+        
+        if (!string.IsNullOrEmpty(user.ProfilePicture))
+        {
+            var oldPath = Path.Combine(uploadsFolder, user.ProfilePicture);
+            if (System.IO.File.Exists(oldPath)) System.IO.File.Delete(oldPath);
+        }
+        
+        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+        var filePath = Path.Combine(uploadsFolder, fileName);
+        
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+        user.ProfilePicture = fileName;
+    }
+
+    user.FullName = model.FullName;
+    user.Email = model.Email;
+    user.PhoneNumber = model.PhoneNumber;
+    user.Address = model.Address;
+
+    await _users.ReplaceOneAsync(u => u.Id == user.Id, user);
+    
+    return RedirectToAction("Profil");
+}
 
         [Authorize]
         [HttpPost]

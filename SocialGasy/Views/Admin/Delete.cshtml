@@ -1,14 +1,76 @@
 @model SocialGasy.Models.User
+@{
+    ViewData["Title"] = "Supprimer le Chef";
+}
 
-<h2>Mamafa Chef</h2>
+<style>
+    body {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
+    }
 
-<h3>Tena te hamafa an'i @Model.FullName ve ianao?</h3>
+    .card {
+        border-radius: 20px !important;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important;
+        border: none;
+    }
 
-<div>
-    <p>Email: @Model.Email</p>
-    <form asp-action="Delete" method="post">
-        <input type="hidden" asp-for="Id" />
-        <button type="submit" class="btn btn-danger">Eny, hamafa</button>
-        <a asp-action="ListChefs" class="btn btn-secondary">Tsia, ajanony</a>
-    </form>
+    .card-header-custom {
+        background: #e11d48 !important;
+        color: #ffffff;
+        padding: 1.5rem;
+        border-radius: 20px 20px 0 0 !important;
+    }
+
+    .btn-danger-custom {
+        background: #e11d48;
+        color: #ffffff;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-danger-custom:hover {
+        background: #be123c;
+        color: #ffffff;
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header-custom">
+                    <h4 class="mb-0 fw-bold"><i class="bi bi-trash-fill me-2"></i> Suppression</h4>
+                </div>
+                <div class="card-body p-4 p-md-5 text-center">
+                    <i class="bi bi-exclamation-triangle-fill text-danger display-4"></i>
+                    <h5 class="mt-4 fw-bold text-dark">Confirmer la suppression</h5>
+                    <p class="text-muted">
+                        Voulez-vous vraiment supprimer le chef <strong>@Model.FullName</strong> ? 
+                        Cette action est irréversible.
+                    </p>
+                    
+                    <div class="bg-light p-3 rounded-pill mt-4 mb-4">
+                        <span class="text-muted small text-uppercase fw-bold">Email: </span>
+                        <span class="fw-bold text-dark">@Model.Email</span>
+                    </div>
+
+                    <form asp-action="Delete" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger-custom btn-lg rounded-pill">
+                                <i class="bi bi-trash-fill me-2"></i> Confirmer la suppression
+                            </button>
+                            <a asp-action="ListChefs" class="btn btn-outline-secondary btn-lg rounded-pill">
+                                Annuler
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

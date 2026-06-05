@@ -31,7 +31,7 @@ namespace SocialGasy.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Household household, string Latitude, string Longitude)
+        public async Task<IActionResult> Create([Bind("Region,District,Commune,Fokontany,Address,ClientGuid")] Household household, string Latitude, string Longitude)
         {
             if (double.TryParse(Latitude?.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double lat))
             {
@@ -42,21 +42,49 @@ namespace SocialGasy.Controllers
             {
                 household.Longitude = lon;
             }
-            
-            try 
-            {
-                household.CreatedAt = DateTime.UtcNow;
-                household.CreatedByAgentId = User.Identity?.Name ?? "Système";
 
-                await _householdCollection.InsertOneAsync(household);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
+            household.Id = null;
+            household.CreatedAt = DateTime.UtcNow;
+            household.CreatedByAgentId = User.Identity?.Name ?? "System";
+            household.SyncStatus = "Synced";
+
+            if (ModelState.IsValid)
             {
-                Console.WriteLine("ERREUR DB : " + ex.Message);
-                ModelState.AddModelError("", "Une erreur est survenue lors de l'enregistrement : " + ex.Message);
-                return View(household);
+                try 
+                {
+                    await _householdCollection.InsertOneAsync(household);
+                    TempData["Success"] = "Household saved successfully.";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error saving to database: " + ex.Message);
+                }
             }
+            
+            return View(household);
+        }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            var household = await _householdCollection.Find(h => h.Id == id).FirstOrDefaultAsync();
+            if (household == null) return NotFound();
+
+            return View(household);
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var household = await _householdCollection.Find(h => h.Id == id).FirstOrDefaultAsync();
+            return household == null ? NotFound() : View(household);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            await _householdCollection.DeleteOneAsync(h => h.Id == id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

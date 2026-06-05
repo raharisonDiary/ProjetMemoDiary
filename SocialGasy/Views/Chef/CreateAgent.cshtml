@@ -1,29 +1,86 @@
 @model SocialGasy.Models.User
 
-<div class="container mt-4">
-    <h3>Mamorona Agent Vaovao</h3>
-    <form asp-action="CreateAgent" method="post">
-        <div class="mb-3">
-            <label>Anarana Feno</label>
-            <input asp-for="FullName" class="form-control" required />
+@{
+    ViewData["Title"] = "Créer un Agent";
+}
+
+<div class="page-background py-5">
+    <div class="container animate__animated animate__fadeIn">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-5">
+                <div class="card border-0 shadow-lg rounded-5 overflow-hidden">
+                    <div class="card-header bg-primary text-white p-4 text-center border-0">
+                        <h3 class="fw-bold mb-1"><i class="bi bi-person-plus-fill me-2"></i> Nouvel Agent</h3>
+                        <p class="mb-0 text-white-75 small text-uppercase tracking-wide">Enregistrement des données</p>
+                    </div>
+
+                    <div class="card-body p-4 p-lg-5 bg-white">
+                        <form asp-action="CreateAgent" method="post" autocomplete="off">
+                            @Html.AntiForgeryToken()
+
+                            <div class="mb-3">
+                                <label asp-for="FullName" class="form-label text-dark fw-bold small">Nom complet</label>
+                                <input asp-for="FullName" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Cin" class="form-label text-dark fw-bold small">CIN</label>
+                                <input asp-for="Cin" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Address" class="form-label text-dark fw-bold small">Adresse</label>
+                                <input asp-for="Address" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="PhoneNumber" class="form-label text-dark fw-bold small">Téléphone</label>
+                                <input asp-for="PhoneNumber" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" placeholder="261..." required />
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="Email" class="form-label text-dark fw-bold small">Email</label>
+                                <input asp-for="Email" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" />
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-4 shadow-sm py-3 hover-lift fw-bold">
+                                    <i class="bi bi-check2-circle me-2"></i> Enregistrer
+                                </button>
+                                <a asp-action="Dashboard" class="btn btn-outline-secondary btn-lg rounded-4 py-3 fw-bold border-0 hover-lift">
+                                    <i class="bi bi-arrow-left me-2"></i> Annuler
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label>CIN</label>
-            <input asp-for="Cin" class="form-control" />
-        </div>
-        <div class="mb-3">
-            <label>Adiresy</label>
-            <input asp-for="Address" class="form-control" />
-        </div>
-        <div class="mb-3">
-            <label>Telefaona</label>
-            <input asp-for="PhoneNumber" class="form-control" />
-        </div>
-        <div class="mb-3">
-            <label>Email</label>
-            <input asp-for="Email" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-success">Tehirizo</button>
-        <a asp-action="Dashboard" class="btn btn-secondary">Hiverina</a>
-    </form>
+    </div>
 </div>
+
+<style>
+    .page-background {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    }
+    .form-control-lg { 
+        padding: 0.8rem 1.25rem; 
+        font-size: 1rem; 
+        transition: all 0.3s ease;
+    }
+    .form-control-lg:focus { 
+        border-color: #4e73df !important; 
+        box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25) !important; 
+    }
+    .hover-lift { transition: transform 0.3s ease; }
+    .hover-lift:hover { transform: translateY(-3px); box-shadow: 0 10px 15px rgba(0,0,0,0.2) !important; }
+    .rounded-5 { border-radius: 2rem !important; }
+    .rounded-4 { border-radius: 1.25rem !important; }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate__fadeIn { animation: fadeIn 0.8s ease-out forwards; }
+</style>

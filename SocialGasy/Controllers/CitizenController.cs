@@ -25,7 +25,6 @@ namespace SocialGasy.Controllers
             _qrCodeService = qrCodeService;
         }
 
-        // Lisitry ny mponina rehetra
         public async Task<IActionResult> Index()
         {
             var citizens = await _citizenCollection.Find(_ => true).ToListAsync();
@@ -34,7 +33,6 @@ namespace SocialGasy.Controllers
             return View(citizens);
         }
 
-        // Pejy fampidirana mponina vaovao
         public async Task<IActionResult> Create()
         {
             await RepopulateHouseholdsList();
@@ -45,42 +43,108 @@ namespace SocialGasy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Citizen citizen)
         {
+            ModelState.Remove("Id");
+            ModelState.Remove("RegisteredAt");
+            ModelState.Remove("SpouseName");
+            ModelState.Remove("NumberOfChildren");
+            ModelState.Remove("Profession");
+
             if (string.IsNullOrEmpty(citizen.HouseholdId))
-                ModelState.AddModelError("HouseholdId", "Mila misafidy Ménage iray ianao.");
+            {
+                ModelState.AddModelError("HouseholdId", "Selection required.");
+            }
 
             if (ModelState.IsValid)
             {
-                var existing = await _citizenCollection.Find(c => c.CIN == citizen.CIN).FirstOrDefaultAsync();
-                if (existing != null)
+                try
                 {
-                    ModelState.AddModelError("CIN", "Efa misy mampiasa io laharana CIN io.");
-                    await RepopulateHouseholdsList();
-                    return View(citizen);
+                    var existing = await _citizenCollection.Find(c => c.CIN == citizen.CIN).FirstOrDefaultAsync();
+                    if (existing != null)
+                    {
+                        ModelState.AddModelError("CIN", "This CIN is already in use.");
+                        await RepopulateHouseholdsList();
+                        return View(citizen);
+                    }
+
+                    citizen.Id = null;
+                    citizen.QRCodeData = $"SOCIALGASY-{citizen.CIN}";
+                    citizen.RegisteredAt = DateTime.UtcNow;
+                    citizen.SyncStatus = "Synced";
+
+                    await _citizenCollection.InsertOneAsync(citizen);
+
+                    TempData["Success"] = "Citizen saved successfully!";
+                    return RedirectToAction(nameof(Index));
                 }
-                
-                citizen.QRCodeData = $"SOCIALGASY-{citizen.CIN}";
-                await _citizenCollection.InsertOneAsync(citizen);
-                
-                // Fanitsiana: Mampiasa TempData hanamarika ny fahombiazana
-                TempData["Success"] = "Voatahiry soa aman-tsara ny mponina!";
-                
-                // Mijanona eo amin'ny pejy Create mba hahafahana manohy ny fampidirana
-                return RedirectToAction(nameof(Create));
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Database error: " + ex.Message);
+                }
             }
-            
+
             await RepopulateHouseholdsList();
             return View(citizen);
         }
 
-        // Pejy hijerena ny antsipiriany
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return NotFound();
+
+            var citizen = await _citizenCollection.Find(c => c.Id == id).FirstOrDefaultAsync();
+            if (citizen == null) return NotFound();
+
+            await RepopulateHouseholdsList();
+            return View(citizen);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, Citizen citizen)
+        {
+            if (id != citizen.Id) return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var filter = Builders<Citizen>.Filter.Eq(c => c.Id, id);
+                    var update = Builders<Citizen>.Update
+                        .Set(c => c.CIN, citizen.CIN)
+                        .Set(c => c.LastName, citizen.LastName)
+                        .Set(c => c.FirstName, citizen.FirstName)
+                        .Set(c => c.DateOfBirth, citizen.DateOfBirth)
+                        .Set(c => c.Gender, citizen.Gender)
+                        .Set(c => c.MaritalStatus, citizen.MaritalStatus)
+                        .Set(c => c.NumberOfChildren, citizen.NumberOfChildren)
+                        .Set(c => c.Profession, citizen.Profession)
+                        .Set(c => c.HouseholdId, citizen.HouseholdId)
+                        .Set(c => c.SyncStatus, "Synced");
+
+                    var result = await _citizenCollection.UpdateOneAsync(filter, update);
+
+                    if (result.MatchedCount > 0)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    ModelState.AddModelError("", "Update failed.");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error: " + ex.Message);
+                }
+            }
+            await RepopulateHouseholdsList();
+            return View(citizen);
+        }
+
         public async Task<IActionResult> Details(string id)
         {
             var citizen = await _citizenCollection.Find(c => c.Id == id).FirstOrDefaultAsync();
             if (citizen == null) return NotFound();
 
             var household = await _householdCollection.Find(h => h.Id == citizen.HouseholdId).FirstOrDefaultAsync();
-            ViewBag.Household = household; 
-            
+            ViewBag.Household = household;
+
             return View(citizen);
         }
 
@@ -101,10 +165,10 @@ namespace SocialGasy.Controllers
         private async Task RepopulateHouseholdsList()
         {
             var households = await _householdCollection.Find(_ => true).ToListAsync();
-            ViewBag.Households = households.Select(h => new SelectListItem 
-            { 
-                Value = h.Id, 
-                Text = $"{h.Fokontany} - {h.Address} ({h.District})" 
+            ViewBag.Households = households.Select(h => new SelectListItem
+            {
+                Value = h.Id,
+                Text = $"{h.Fokontany} - {h.Address} ({h.District})"
             }).ToList();
         }
     }

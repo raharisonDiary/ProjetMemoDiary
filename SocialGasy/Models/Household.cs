@@ -11,21 +11,27 @@ namespace SocialGasy.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
 
-        [Required(ErrorMessage = "Ny adiresy dia pakana")]
+        public string? ClientGuid { get; set; }
+
+        [Required]
         [BsonElement("Address")]
         public string Address { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Ny Fokontany dia pakana")]
+        [Required]
         [BsonElement("Fokontany")]
         public string Fokontany { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Ny District dia pakana")]
+        [Required]
         [BsonElement("District")]
         public string District { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Ny Region dia pakana")]
+        [Required]
         [BsonElement("Region")]
         public string Region { get; set; } = string.Empty;
+
+        [Required]
+        [BsonElement("Commune")]
+        public string Commune { get; set; } = string.Empty;
 
         [BsonElement("Latitude")]
         public double Latitude { get; set; }
@@ -38,7 +44,8 @@ namespace SocialGasy.Models
 
         [BsonElement("CreatedAt")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
         [BsonIgnore]
-public string SyncStatus { get; set; } = "Synced";
+        public string SyncStatus { get; set; } = "Synced";
     }
 }

@@ -1,31 +1,29 @@
 ﻿:root {
-    --primary-color: #1b6ec2;
-    --sidebar-bg: #212529;
-    --sidebar-link-hover: rgba(255, 255, 255, 0.1);
+    --primary-color: #4f46e5;
+    --secondary-color: #0d1128;
+    --sidebar-bg: #0d1128;
+    --sidebar-link-hover: rgba(79, 70, 229, 0.2);
 }
 
 body {
-    background-color: #f4f7f6;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8fafc;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-/* Sidebar Wrapper - Fixed ho an'ny mobile */
 #sidebar-wrapper {
     min-height: 100vh;
     width: 260px;
-    transition: all 0.3s ease;
     background-color: var(--sidebar-bg);
     position: fixed;
     left: -260px;
     z-index: 1050;
+    transition: all 0.3s ease;
 }
 
-/* Rehefa 'toggled' ny menu amin'ny mobile */
 #wrapper.toggled #sidebar-wrapper {
     left: 0;
 }
 
-/* Overlay mba hanakona ny content rehefa misokatra ny menu */
 #sidebar-overlay {
     position: fixed;
     top: 0;
@@ -39,18 +37,17 @@ body {
 
 .nav-link-sidebar {
     display: block;
-    padding: 0.75rem 1rem;
-    color: #adb5bd;
+    padding: 0.8rem 1rem;
+    color: #cbd5e1;
     text-decoration: none;
-    border-radius: 8px;
-    margin-bottom: 5px;
-    transition: 0.2s;
+    border-radius: 12px;
+    margin-bottom: 4px;
+    transition: 0.3s;
 }
 
 .nav-link-sidebar:hover, .nav-link-sidebar.active {
     background-color: var(--sidebar-link-hover);
     color: #fff;
-    border-left: 4px solid var(--primary-color);
 }
 
 .avatar-circle {
@@ -63,19 +60,9 @@ body {
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    font-size: 0.9rem;
 }
 
-.card {
-    border-radius: 15px;
-    border: none;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
-}
-
-.navbar {
-    z-index: 1000;
-}
-
-/* Rehefa eo amin'ny écran lehibe (desktop) */
 @media (min-width: 768px) {
     #sidebar-wrapper {
         position: static;
@@ -83,8 +70,5 @@ body {
     }
     #wrapper.toggled #sidebar-wrapper {
         margin-left: -260px;
-    }
-    #sidebar-overlay {
-        display: none !important;
     }
 }

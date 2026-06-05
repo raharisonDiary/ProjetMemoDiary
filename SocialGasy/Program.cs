@@ -2,7 +2,7 @@ using SocialGasy.Services;
 using SocialGasy.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization; // Zava-dehibe
+using Microsoft.AspNetCore.Mvc.Authorization; 
 using MongoDB.Driver;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
@@ -22,11 +22,11 @@ builder.Services.AddScoped(sp => database.GetCollection<User>("Users"));
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-// 2. CONTROLLERS - Mampiasa AuthorizeFilter eto fa tsy FallbackPolicy
+// 2. CONTROLLERS 
 builder.Services.AddControllersWithViews(options =>
 {
     var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-    options.Filters.Add(new AuthorizeFilter(policy)); // Manery login manerana ny app
+    options.Filters.Add(new AuthorizeFilter(policy)); 
 })
 .AddViewLocalization()
 .AddDataAnnotationsLocalization()

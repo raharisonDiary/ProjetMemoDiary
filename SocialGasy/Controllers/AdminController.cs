@@ -7,6 +7,9 @@ using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 
 namespace SocialGasy.Controllers
 {
@@ -15,6 +18,7 @@ namespace SocialGasy.Controllers
     {
         private readonly IMongoCollection<User> _users;
         private readonly IMongoCollection<Report> _reports;
+        private static readonly HttpClient _httpClient = new HttpClient();
 
         public AdminController(IMongoDatabase database)
         {
@@ -22,7 +26,6 @@ namespace SocialGasy.Controllers
             _reports = database.GetCollection<Report>("Reports");
         }
 
-        // --- DASHBOARD ---
         public async Task<IActionResult> Dashboard()
         {
             var allReports = await _reports.Find(_ => true) 
@@ -31,7 +34,6 @@ namespace SocialGasy.Controllers
             return View(allReports);
         }
 
-        // --- CHEF MANAGEMENT ---
         public async Task<IActionResult> ListChefs()
         {
             var chefs = await _users.Find(u => u.Role == "ChefRegional").ToListAsync();
@@ -58,7 +60,23 @@ namespace SocialGasy.Controllers
                 user.QrCodeImage = qrCodeImage;
 
                 await _users.InsertOneAsync(user);
-                TempData["Success"] = "Chef voaforona tamim-pahombiazana!";
+
+                string base64Image = Convert.ToBase64String(qrCodeImage);
+                string apiUrl = "https://api.ultramsg.com/instance179269/messages/image";
+                
+                var payload = new
+                {
+                    token = "z8bor2yc7ladu21d",
+                    to = user.PhoneNumber,
+                    image = $"data:image/png;base64,{base64Image}",
+                    caption = "Voici votre code QR de connexion."
+                };
+
+                string jsonPayload = JsonSerializer.Serialize(payload);
+                HttpContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                await _httpClient.PostAsync(apiUrl, content);
+
+                TempData["Success"] = "Chef créé avec succès !";
                 return RedirectToAction(nameof(ListChefs));
             }
             return View(user);
@@ -91,7 +109,7 @@ namespace SocialGasy.Controllers
                 .Set(u => u.Address, user.Address);
 
             await _users.UpdateOneAsync(filter, update);
-            TempData["Success"] = "Voatahiry ny fanovana.";
+            TempData["Success"] = "Modifications enregistrées.";
             return RedirectToAction(nameof(ListChefs));
         }
 
@@ -107,11 +125,10 @@ namespace SocialGasy.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             await _users.DeleteOneAsync(u => u.Id == id);
-            TempData["Success"] = "Chef voafafa.";
+            TempData["Success"] = "Chef supprimé.";
             return RedirectToAction(nameof(ListChefs));
         }
 
-        // --- REPORT & NOTIFICATION MANAGEMENT ---
         public async Task<IActionResult> Notifications()
         {
             var reports = await _reports.Find(_ => true)

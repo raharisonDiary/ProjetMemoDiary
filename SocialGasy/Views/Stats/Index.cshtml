@@ -2,6 +2,37 @@
     ViewData["Title"] = "Statistiques Globales";
 }
 
+<style>
+    :root {
+        --primary-color: #4f46e5;
+        --secondary-color: #0d1128;
+        --accent-color: #d63384;
+    }
+
+    /* Fond en dégradé appliqué à toute la page */
+    body {
+        background: linear-gradient(135deg, #f0f2f5 0%, #e2e8f0 100%);
+        min-height: 100vh;
+    }
+    
+    .card { 
+        border: none !important; 
+        border-radius: 20px !important; 
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important; 
+    }
+
+    /* Style spécifique pour les cartes de stats */
+    .bg-stat-primary { background: var(--primary-color) !important; color: #fff; }
+    .bg-stat-secondary { background: var(--secondary-color) !important; color: #fff; }
+
+    /* Badge personnalisé */
+    .badge-custom {
+        background: #eef2ff !important;
+        color: var(--primary-color) !important;
+        border: 1px solid var(--primary-color) !important;
+    }
+</style>
+
 <div class="container-fluid py-4">
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
         <div>
@@ -9,9 +40,9 @@
             <p class="text-muted small">Analyse des données démographiques</p>
         </div>
         <form method="get" class="col-12 col-md-auto">
-            <select name="district" onchange="this.form.submit()" class="form-select border-0 shadow-sm rounded-pill px-4 bg-white">
+            <select name="district" onchange="this.form.submit()" class="form-select border-0 shadow-sm rounded-pill px-4 bg-white" style="cursor: pointer;">
                 <option value="">Tous les districts</option>
-                @foreach (var d in ViewBag.Districts)
+                @foreach (var d in (List<string>)ViewBag.Districts)
                 {
                     <option value="@d" selected="@(ViewBag.SelectedDistrict == d)">@d</option>
                 }
@@ -21,25 +52,25 @@
 
     <div class="row g-4 mb-4">
         <div class="col-md-3">
-            <div class="card p-4 border-0 rounded-4 shadow-sm text-center h-100 bg-primary text-white">
-                <h6 class="text-uppercase opacity-75">Population Totale</h6>
+            <div class="card p-4 text-center h-100 bg-stat-primary">
+                <h6 class="text-uppercase opacity-75 small">Population Totale</h6>
                 <h2 class="fw-bold display-6">@ViewBag.TotalCitizens</h2>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card p-4 border-0 rounded-4 shadow-sm text-center h-100 bg-success text-white">
-                <h6 class="text-uppercase opacity-75">Ménages</h6>
+            <div class="card p-4 text-center h-100 bg-stat-secondary">
+                <h6 class="text-uppercase opacity-75 small">Ménages</h6>
                 <h2 class="fw-bold display-6">@ViewBag.TotalHouseholds</h2>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card p-4 border-0 rounded-4 shadow-sm h-100">
-                <h6 class="fw-bold mb-3 text-secondary">Top 5 Districts (Population)</h6>
+            <div class="card p-4 h-100">
+                <h6 class="fw-bold mb-3 text-secondary">Top 5 Districts</h6>
                 <div class="d-flex flex-wrap gap-2">
-                    @foreach (var top in ViewBag.TopDistricts)
+                    @foreach (var top in (List<MongoDB.Bson.BsonDocument>)ViewBag.TopDistricts)
                     {
-                        <div class="badge bg-light text-dark p-2 px-3 rounded-pill border shadow-sm">
-                            <span class="fw-bold">@top["_id"]</span>: @top["Count"] hab
+                        <div class="badge badge-custom p-2 px-3 rounded-pill">
+                            <span class="fw-bold">@top["_id"]</span>: @top["count"]
                         </div>
                     }
                 </div>
@@ -49,54 +80,71 @@
 
     <div class="row g-4">
         <div class="col-lg-8">
-            <div class="card p-4 border-0 rounded-4 shadow-sm h-100">
+            <div class="card p-4 h-100">
                 <h6 class="fw-bold mb-4">Répartition par Âge et Sexe</h6>
-                <canvas id="ageChart" style="max-height: 300px;"></canvas>
+                <div style="height: 350px; position: relative;">
+                    <canvas id="ageChart"></canvas>
+                </div>
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="card p-4 border-0 rounded-4 shadow-sm h-100">
+            <div class="card p-4 h-100">
                 <h6 class="fw-bold mb-4">Répartition par Genre</h6>
-                <canvas id="genderChart" style="max-height: 300px;"></canvas>
+                <div style="height: 350px; position: relative;">
+                    <canvas id="genderChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/lib/chartjs/chart.umd.min.js"></script>
     <script>
-        const rawStats = @Json.Serialize(ViewBag.Stats);
-        const ageGroups = ["Mineur (<18)", "Jeune (18-35)", "Adulte (36-60)", "Senior (>60)"];
+        document.addEventListener("DOMContentLoaded", function () {
+            const rawStats = @Html.Raw(ViewBag.Stats ?? "[]");
+            const ageGroups = ["Mineur (<18)", "Jeune (18-35)", "Adulte (36-60)", "Senior (>60)"];
+            const chartOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } };
 
-        // Bar Chart (Age & Gender)
-        new Chart(document.getElementById('ageChart').getContext('2d'), {
-            type: 'bar',
-            data: {
-                labels: ageGroups,
-                datasets: [
-                    { label: 'Hommes', data: ageGroups.map(g => rawStats.filter(s => s.ageGroup === g && s.gender === 'M').reduce((a, b) => a + b.count, 0)), backgroundColor: '#0d6efd', borderRadius: 8 },
-                    { label: 'Femmes', data: ageGroups.map(g => rawStats.filter(s => s.ageGroup === g && s.gender === 'F').reduce((a, b) => a + b.count, 0)), backgroundColor: '#d63384', borderRadius: 8 }
-                ]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }
-        });
+            if (rawStats && rawStats.length > 0) {
+                new Chart(document.getElementById('ageChart').getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ageGroups,
+                        datasets: [
+                            { 
+                                label: 'Masculin', 
+                                data: ageGroups.map(g => rawStats.filter(s => s.ageGroup === g && s.gender === 'Masculin').reduce((a, b) => a + b.count, 0)), 
+                                backgroundColor: '#4f46e5',
+                                borderRadius: 8, barThickness: 40
+                            },
+                            { 
+                                label: 'Féminin', 
+                                data: ageGroups.map(g => rawStats.filter(s => s.ageGroup === g && s.gender === 'Féminin').reduce((a, b) => a + b.count, 0)), 
+                                backgroundColor: '#d63384',
+                                borderRadius: 8, barThickness: 40
+                            }
+                        ]
+                    },
+                    options: chartOptions
+                });
 
-        // Doughnut Chart (Gender)
-        new Chart(document.getElementById('genderChart').getContext('2d'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Hommes', 'Femmes'],
-                datasets: [{
-                    data: [
-                        rawStats.filter(s => s.gender === 'M').reduce((a, b) => a + b.count, 0),
-                        rawStats.filter(s => s.gender === 'F').reduce((a, b) => a + b.count, 0)
-                    ],
-                    backgroundColor: ['#0d6efd', '#d63384'],
-                    borderWidth: 0
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+                new Chart(document.getElementById('genderChart').getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Masculin', 'Féminin'],
+                        datasets: [{
+                            data: [
+                                rawStats.filter(s => s.gender === 'Masculin').reduce((a, b) => a + b.count, 0),
+                                rawStats.filter(s => s.gender === 'Féminin').reduce((a, b) => a + b.count, 0)
+                            ],
+                            backgroundColor: ['#4f46e5', '#d63384'],
+                            hoverOffset: 10
+                        }]
+                    },
+                    options: { ...chartOptions, plugins: { legend: { position: 'bottom' } } }
+                });
+            }
         });
     </script>
 }

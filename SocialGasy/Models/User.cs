@@ -1,7 +1,6 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace SocialGasy.Models
 {
@@ -26,7 +25,6 @@ namespace SocialGasy.Models
         [BsonElement("Email")]
         public string Email { get; set; } = string.Empty;
 
-        // Ireo saha ilaina ao amin'ny View CreateChef.cshtml
         [BsonElement("Cin")]
         public string? Cin { get; set; }
 
@@ -41,6 +39,9 @@ namespace SocialGasy.Models
 
         [BsonElement("QrCodeImage")]
         public byte[]? QrCodeImage { get; set; }
+
+        [BsonElement("ProfilePicture")]
+        public string? ProfilePicture { get; set; }
 
         [BsonElement("CreatedAt")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

@@ -3,78 +3,117 @@
     ViewData["Title"] = "Registre des Ménages";
 }
 
-<div class="container py-5">
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
-        <div>
-            <h2 class="fw-bold text-dark mb-0">Registre des Ménages</h2>
-            <p class="text-muted small">Suivi national des habitations et géolocalisation</p>
+<div class="page-background py-5">
+    <div class="container animate__animated animate__fadeIn">
+        <!-- Header Section -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+            <div>
+                <h2 class="fw-bold text-white mb-1">Registre des Ménages</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-white text-decoration-none opacity-75">Accueil</a></li>
+                        <li class="breadcrumb-item active text-white fw-bold">Ménages</li>
+                    </ol>
+                </nav>
+            </div>
+            <a asp-action="Create" class="btn btn-light btn-lg rounded-4 px-4 shadow-sm text-primary fw-bold hover-lift">
+                <i class="bi bi-plus-circle me-2"></i> Ajouter un Ménage
+            </a>
         </div>
-        <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow-sm">
-            <i class="bi bi-plus-lg me-1"></i> Nouveau Ménage
-        </a>
-    </div>
 
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="bg-light text-muted small text-uppercase">
-                    <tr>
-                        <th class="ps-4">Région / District</th>
-                        <th>Fokontany / Adresse</th>
-                        <th>Coordonnées GPS</th>
-                        <th class="text-center">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!Model.Any())
-                    {
-                        <tr>
-                            <td colspan="4" class="text-center py-5 text-muted">
-                                <i class="bi bi-house-door display-4 d-block mb-2 opacity-50"></i>
-                                Aucun ménage enregistré pour le moment.
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
-                        @foreach (var item in Model)
-                        {
-                            // Utilisation du point comme séparateur décimal
-                            var lat = item.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
-                            var lon = item.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
-
+        <!-- Table Card -->
+        <div class="card border-0 shadow-lg rounded-5 overflow-hidden">
+            <div class="card-header bg-white border-0 pt-4 pb-0">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="p-3 rounded-4 bg-primary bg-opacity-10 text-primary me-3">
+                        <i class="bi bi-house-door-fill fs-4"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-0">Liste des enregistrements</h5>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
                             <tr>
-                                <td class="ps-4">
-                                    <div class="fw-bold text-dark">@item.Region</div>
-                                    <small class="text-muted">@item.District</small>
-                                </td>
-                                <td>
-                                    <div class="text-primary fw-semibold">@item.Fokontany</div>
-                                    <small class="text-muted">@item.Address</small>
-                                </td>
-                                <td>
-                                    <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 rounded-pill font-monospace px-3">
-                                        @lat, @lon
-                                    </span>
-                                </td>
-                                <td class="text-center">
-                                    <a href="https://www.openstreetmap.org/?mlat=@lat&mlon=@lon#map=18/@lat/@lon" 
-                                       target="_blank" 
-                                       class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                                        <i class="bi bi-map me-1"></i> Carte
-                                    </a>
-                                </td>
+                                <th class="ps-4 py-3">Localisation</th>
+                                <th class="py-3">Fokontany / Commune</th>
+                                <th class="py-3">Adresse physique</th>
+                                <th class="py-3">Géolocalisation</th>
+                                <th class="py-3 text-center">Actions</th>
                             </tr>
-                        }
-                    }
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                            @if (!Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center py-5 text-muted">
+                                        <div class="mb-3"><i class="bi bi-inbox fs-1 opacity-25"></i></div>
+                                        Aucune donnée disponible pour le moment.
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    var lat = item.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                                    var lon = item.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                                    <tr class="table-row-animation">
+                                        <td class="ps-4">
+                                            <div class="fw-bold text-dark">@item.Region</div>
+                                            <small class="text-muted">@item.District</small>
+                                        </td>
+                                        <td>
+                                            <div class="fw-semibold text-dark">@item.Commune</div>
+                                            <small class="text-primary fw-bold">@item.Fokontany</small>
+                                        </td>
+                                        <td>
+                                            <small class="text-secondary text-truncate" style="max-width: 200px; display: block;">@item.Address</small>
+                                        </td>
+                                        <td>
+                                            <span class="badge rounded-pill bg-light text-dark border px-3 py-2 font-monospace">
+                                                <i class="bi bi-geo-alt-fill text-danger me-1"></i> @lat, @lon
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="https://www.openstreetmap.org/?mlat=@lat&mlon=@lon#map=18/@lat/@lon" target="_blank" 
+                                               class="btn btn-sm btn-outline-primary rounded-pill px-3 hover-scale">
+                                                <i class="bi bi-map me-1"></i> Carte
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <style>
-    .table > :not(caption) > * > * { padding: 1rem; }
-    .badge { font-size: 0.85em; }
-    .btn-outline-primary:hover { transform: translateY(-1px); }
+    .page-background {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #1e293b 0%, #4e73df 100%);
+    }
+    .hover-lift { transition: transform 0.3s ease; }
+    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important; }
+    
+    .hover-scale { transition: transform 0.2s ease; }
+    .hover-scale:hover { transform: scale(1.05); }
+
+    .table-row-animation { transition: background-color 0.3s ease; }
+    .table-hover tbody tr:hover { background-color: #f8fafc; }
+    
+    .rounded-5 { border-radius: 2rem !important; }
+    .rounded-4 { border-radius: 1.5rem !important; }
+
+    /* Animation */
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate__fadeIn { animation: fadeIn 0.8s ease-out forwards; }
 </style>

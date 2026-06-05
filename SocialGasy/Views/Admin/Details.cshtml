@@ -3,49 +3,112 @@
     ViewData["Title"] = "Détails du Chef";
 }
 
+<style>
+    body {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
+    }
+
+    .card {
+        border-radius: 20px !important;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important;
+        background: #ffffff;
+    }
+
+    .header-custom {
+        background: #4f46e5 !important;
+        color: #ffffff;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .badge-role {
+        background: #ffffff !important;
+        color: #4f46e5 !important;
+        font-weight: 600;
+        padding: 0.5rem 1.2rem;
+    }
+
+    .section-title {
+        color: #4f46e5;
+        font-weight: 700;
+        border-bottom: 2px solid #e0e7ff;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .info-label {
+        color: #64748b;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+    }
+
+    .info-value {
+        font-weight: 600;
+        color: #1e293b;
+        font-size: 1rem;
+    }
+
+    .qr-container {
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px !important;
+        padding: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .btn-back {
+        transition: all 0.3s ease;
+    }
+
+    .btn-back:hover {
+        background: #64748b;
+        color: #ffffff;
+    }
+</style>
+
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-6">
-            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                <!-- Header -->
-                <div class="bg-primary text-white p-4 text-center">
+            <div class="card border-0 overflow-hidden">
+                <div class="header-custom">
                     <h3 class="mb-0 fw-bold">@Model.FullName</h3>
-                    <span class="badge bg-light text-primary mt-2 rounded-pill px-3">@Model.Role</span>
+                    <span class="badge badge-role mt-2 rounded-pill">@Model.Role</span>
                 </div>
 
-                <!-- Body -->
                 <div class="card-body p-4 p-md-5">
-                    <h5 class="fw-bold text-primary mb-4 border-bottom pb-2">Informations Personnelles</h5>
+                    <h5 class="section-title">Informations Personnelles</h5>
                     
                     <div class="mb-3">
-                        <label class="text-muted small text-uppercase fw-bold">Nom d'utilisateur</label>
-                        <p class="fs-5 fw-medium text-dark">@Model.Username</p>
+                        <div class="info-label">Nom d'utilisateur</div>
+                        <div class="info-value fs-5">@Model.Username</div>
                     </div>
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="text-muted small text-uppercase fw-bold">Email</label>
-                            <p class="fw-medium text-dark">@Model.Email</p>
+                            <div class="info-label">Email</div>
+                            <div class="info-value">@Model.Email</div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="text-muted small text-uppercase fw-bold">Téléphone</label>
-                            <p class="fw-medium text-dark">@Model.PhoneNumber</p>
+                            <div class="info-label">Téléphone</div>
+                            <div class="info-value">@Model.PhoneNumber</div>
                         </div>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="text-muted small text-uppercase fw-bold">Numéro CIN</label>
-                        <p class="fw-medium text-dark">@Model.Cin</p>
+                    <div class="mb-3">
+                        <div class="info-label">Numéro CIN</div>
+                        <div class="info-value">@Model.Cin</div>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="text-muted small text-uppercase fw-bold">Adresse</label>
-                        <p class="fw-medium text-dark">@Model.Address</p>
+                    <div class="mb-3">
+                        <div class="info-label">Adresse</div>
+                        <div class="info-value">@Model.Address</div>
                     </div>
 
-                    <!-- QR Section -->
-                    <div class="text-center mt-5 p-3 bg-light rounded-4">
-                        <h5 class="fw-bold mb-3">QR Code d'Authentification</h5>
+                    <div class="text-center qr-container">
+                        <h5 class="fw-bold mb-3 text-dark">QR Code d'Authentification</h5>
                         @if (Model.QrCodeImage != null)
                         {
                             <img src="data:image/png;base64,@Convert.ToBase64String(Model.QrCodeImage)" 
@@ -60,10 +123,9 @@
                     </div>
                 </div>
 
-                <!-- Footer -->
                 <div class="card-footer bg-white border-0 p-4 pt-0">
                     <div class="d-grid">
-                        <a asp-action="ListChefs" class="btn btn-outline-secondary btn-lg rounded-3">
+                        <a asp-action="ListChefs" class="btn btn-outline-secondary btn-lg rounded-pill btn-back">
                             <i class="bi bi-arrow-left me-2"></i> Retour à la liste
                         </a>
                     </div>

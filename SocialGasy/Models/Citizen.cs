@@ -1,26 +1,25 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace SocialGasy.Models
 {
-    // Ity attribute ity no manala ilay "FormatException" 
-    // satria izy "tsy miraharaha" ny saha tsy hita ao amin'ny Model
-    [BsonIgnoreExtraElements] 
+    [BsonIgnoreExtraElements]
     public class Citizen
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
 
+        public string? ClientGuid { get; set; }
+
         [BsonElement("CIN")]
         public string CIN { get; set; } = string.Empty;
 
-        [BsonElement("Nom")] 
+        [BsonElement("LastName")]
         public string LastName { get; set; } = string.Empty;
 
-        [BsonElement("Prenom")]
+        [BsonElement("FirstName")]
         public string FirstName { get; set; } = string.Empty;
 
         [BsonElement("DateOfBirth")]
@@ -32,6 +31,15 @@ namespace SocialGasy.Models
         [BsonElement("MaritalStatus")]
         public string MaritalStatus { get; set; } = string.Empty;
 
+        [BsonElement("SpouseName")]
+        public string? SpouseName { get; set; }
+
+        [BsonElement("NumberOfChildren")]
+        public int? NumberOfChildren { get; set; }
+
+        [BsonElement("Profession")]
+        public string? Profession { get; set; }
+
         [BsonElement("HouseholdId")]
         [BsonRepresentation(BsonType.ObjectId)]
         public string HouseholdId { get; set; } = string.Empty;
@@ -39,10 +47,11 @@ namespace SocialGasy.Models
         public string? PhotoBase64 { get; set; }
         public string? QRCodeData { get; set; }
         public string? PhoneNumber { get; set; }
-        
+
         [BsonElement("RegisteredAt")]
         public DateTime RegisteredAt { get; set; } = DateTime.UtcNow;
+
         [BsonIgnore]
-public string SyncStatus { get; set; } = "Synced";
+        public string SyncStatus { get; set; } = "Synced";
     }
 }

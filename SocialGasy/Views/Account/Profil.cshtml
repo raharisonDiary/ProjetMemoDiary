@@ -2,74 +2,61 @@
 
 @{
     ViewData["Title"] = "Mon Profil";
-    string badgeClass = Model.Role switch
-    {
-        "Admin" => "bg-danger",
-        "ChefRegional" => "bg-warning text-dark",
-        _ => "bg-info"
-    };
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-header bg-primary text-white p-4 rounded-top-4 border-0 text-center">
-                    <h4 class="mb-0"><i class="bi bi-person-circle me-2"></i> Informations du Profil</h4>
-                </div>
-                
-                <div class="card-body p-4 p-md-5">
-                    <div class="text-center mb-4">
-                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto shadow-sm" style="width: 100px; height: 100px;">
-                            <i class="bi bi-person-fill display-2 text-primary"></i>
-                        </div>
-                        <h3 class="mt-3 fw-bold">@Model.FullName</h3>
-                        <span class="badge @badgeClass rounded-pill px-3 py-2 text-uppercase">@Model.Role</span>
+<div class="page-background-alt py-4 py-md-5">
+    <div class="container animate__animated animate__fadeIn">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card shadow-lg border-0 rounded-5 overflow-hidden">
+                    <div class="card-header bg-primary text-white p-4 text-center border-0">
+                        <h4 class="mb-0 fw-bold">Mon Profil</h4>
+                        <span class="badge bg-white text-primary mt-2 rounded-pill px-3">@Model.Role</span>
                     </div>
                     
-                    <hr class="my-4">
-                    
-                    @if (!string.IsNullOrEmpty(Model.Username)) {
-                        <div class="row mb-3">
-                            <div class="col-sm-5 fw-bold text-muted">Username</div>
-                            <div class="col-sm-7 text-dark fw-medium">@Model.Username</div>
-                        </div>
-                    }
-                    @if (!string.IsNullOrEmpty(Model.Email)) {
-                        <div class="row mb-3">
-                            <div class="col-sm-5 fw-bold text-muted">Email</div>
-                            <div class="col-sm-7 text-dark fw-medium">@Model.Email</div>
-                        </div>
-                    }
-                    @if (!string.IsNullOrEmpty(Model.PhoneNumber)) {
-                        <div class="row mb-3">
-                            <div class="col-sm-5 fw-bold text-muted">Téléphone</div>
-                            <div class="col-sm-7 text-dark fw-medium">@Model.PhoneNumber</div>
-                        </div>
-                    }
-                    @if (!string.IsNullOrEmpty(Model.Cin)) {
-                        <div class="row mb-3">
-                            <div class="col-sm-5 fw-bold text-muted">CIN</div>
-                            <div class="col-sm-7 text-dark fw-medium">@Model.Cin</div>
-                        </div>
-                    }
-                    @if (!string.IsNullOrEmpty(Model.Address)) {
-                        <div class="row mb-3">
-                            <div class="col-sm-5 fw-bold text-muted">Adresse</div>
-                            <div class="col-sm-7 text-dark fw-medium">@Model.Address</div>
-                        </div>
-                    }
-                    <div class="row mb-3">
-                        <div class="col-sm-5 fw-bold text-muted">Membre depuis</div>
-                        <div class="col-sm-7 text-dark fw-medium">@Model.CreatedAt.ToString("dd/MM/yyyy")</div>
-                    </div>
-                </div>
-                
-                <div class="card-footer bg-light p-4 text-center border-0 rounded-bottom-4">
-                    <div class="d-grid gap-2 d-md-block">
-                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary px-4 rounded-pill me-md-2">Retour</a>
-                        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                            <button type="submit" class="btn btn-danger px-4 rounded-pill">Déconnexion</button>
+                    <div class="card-body p-3 p-md-5 bg-white">
+                        <form id="profileForm" asp-controller="Account" asp-action="UpdateProfile" method="post" enctype="multipart/form-data" autocomplete="off">
+                            @Html.AntiForgeryToken()
+                            
+                            <!-- Sary Responsive -->
+                            <div class="profile-img-wrapper text-center mb-4">
+                                <div class="profile-img-container shadow">
+                                    <img src="@(string.IsNullOrEmpty(Model.ProfilePicture) ? "/images/default-avatar.png" : "/images/profiles/" + Model.ProfilePicture)" 
+                                         alt="Photo de profil" 
+                                         class="profile-img" />
+                                </div>
+                                
+                                <div class="mt-3" id="editImage" style="display:none;">
+                                    <label class="small text-muted mb-1">Changer la photo</label>
+                                    <input type="file" name="file" class="form-control rounded-4" accept="image/*" />
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="fw-bold small text-dark">Nom complet</label>
+                                <input type="text" name="FullName" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" value="@Model.FullName" disabled />
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold small text-dark">Email</label>
+                                <input type="email" name="Email" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" value="@Model.Email" disabled />
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold small text-dark">Téléphone</label>
+                                <input type="text" name="PhoneNumber" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" value="@Model.PhoneNumber" disabled />
+                            </div>
+                            <div class="mb-4">
+                                <label class="fw-bold small text-dark">Adresse</label>
+                                <input type="text" name="Address" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" value="@Model.Address" disabled />
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="button" id="btnEdit" class="btn btn-primary btn-lg rounded-4 shadow-sm hover-lift fw-bold" onclick="enableEdit()">
+                                    <i class="bi bi-pencil-square me-2"></i> Modifier le profil
+                                </button>
+                                <button type="submit" id="btnSave" class="btn btn-success btn-lg rounded-4 shadow-sm hover-lift fw-bold" style="display:none;">
+                                    <i class="bi bi-save me-2"></i> Enregistrer les modifications
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -77,3 +64,55 @@
         </div>
     </div>
 </div>
+
+<style>
+    .page-background-alt {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    }
+
+    /* Fikirana ny sary mba ho responsive foana */
+    .profile-img-container {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #f8f9fa;
+        background-color: #e9ecef;
+    }
+
+    .profile-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .hover-lift { transition: transform 0.3s ease; }
+    .hover-lift:hover { transform: translateY(-3px); }
+    .rounded-5 { border-radius: 2rem !important; }
+    .rounded-4 { border-radius: 1.25rem !important; }
+    
+    @@media (max-width: 576px) {
+        .card-body { padding: 1.5rem !important; }
+        .profile-img-container { width: 100px; height: 100px; }
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate__fadeIn { animation: fadeIn 0.8s ease-out forwards; }
+</style>
+
+<script>
+    function enableEdit() {
+        const inputs = document.querySelectorAll('#profileForm input');
+        inputs.forEach(input => input.disabled = false);
+        
+        document.getElementById('btnEdit').style.display = 'none';
+        document.getElementById('btnSave').style.display = 'block';
+        document.getElementById('editImage').style.display = 'block';
+    }
+</script>

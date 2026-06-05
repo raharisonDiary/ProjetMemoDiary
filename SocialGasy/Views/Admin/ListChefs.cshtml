@@ -1,49 +1,78 @@
 @model IEnumerable<SocialGasy.Models.User>
-@{ ViewData["Title"] = "Liste des Chefs"; }
+@{
+    ViewData["Title"] = "Liste des Chefs";
+}
 
-<div class="container py-5">
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
-        <h2 class="fw-bold text-dark"><i class="bi bi-person-badge-fill text-primary"></i> Liste des Chefs Régionaux</h2>
-        <a asp-action="CreateChef" class="btn btn-primary rounded-pill px-4 shadow-sm">
-            <i class="bi bi-plus-lg"></i> Ajouter un Chef
-        </a>
-    </div>
+<div class="page-background-alt py-5">
+    <div class="container animate__animated animate__fadeIn">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-white">
+                <i class="bi bi-person-badge-fill text-primary me-2"></i> Liste des Chefs
+            </h2>
+            <a asp-action="CreateChef" class="btn btn-primary btn-lg rounded-4 shadow-sm px-4 hover-lift">
+                <i class="bi bi-plus-lg me-2"></i> Ajouter un Chef
+            </a>
+        </div>
 
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th class="ps-4">Nom Complet</th>
-                        <th>Nom d'utilisateur</th>
-                        <th class="text-center">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var chef in Model)
-                    {
+        <div class="card shadow-lg border-0 rounded-5 overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
                         <tr>
-                            <td class="ps-4 fw-semibold">@chef.FullName</td>
-                            <td>@chef.Username</td>
-                            <td class="text-center">
-                                <div class="btn-group gap-1" role="group">
-                                    <a asp-action="Details" asp-route-id="@chef.Id" class="btn btn-outline-info btn-sm rounded">Détails</a>
-                                    <a asp-action="Edit" asp-route-id="@chef.Id" class="btn btn-outline-warning btn-sm rounded">Modifier</a>
-                                    <a asp-action="Delete" asp-route-id="@chef.Id" class="btn btn-outline-danger btn-sm rounded">Supprimer</a>
-                                </div>
-                            </td>
+                            <th class="ps-4 py-3 text-uppercase small text-muted">Nom Complet</th>
+                            <th class="py-3 text-uppercase small text-muted">Nom d'utilisateur</th>
+                            <th class="text-center py-3 text-uppercase small text-muted">Actions</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var chef in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold text-dark">@chef.FullName</td>
+                                <td class="text-muted">@chef.Username</td>
+                                <td class="text-center">
+                                    <div class="btn-group gap-2" role="group">
+                                        <a asp-action="Details" asp-route-id="@chef.Id" class="btn btn-sm btn-outline-info px-3">
+                                            <i class="bi bi-eye"></i> Détails
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@chef.Id" class="btn btn-sm btn-outline-primary px-3">
+                                            <i class="bi bi-pencil-square"></i> Modifier
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@chef.Id" class="btn btn-sm btn-outline-danger px-3" onclick="return confirm('Confirmer la suppression ?');">
+                                            <i class="bi bi-trash"></i> Supprimer
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="p-5 text-center text-muted">
+                    <i class="bi bi-person-x display-4 d-block mb-3"></i>
+                    <p class="mb-0">Aucun chef trouvé.</p>
+                </div>
+            }
         </div>
     </div>
 </div>
 
 <style>
-    .card { background: #ffffff; }
-    .table thead th { border-bottom: 2px solid #f8f9fa; padding: 1rem; }
-    .table tbody td { padding: 1rem; }
-    .btn-group .btn { transition: all 0.2s; }
-    .btn-group .btn:hover { transform: translateY(-2px); }
+    .page-background-alt {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    }
+    .hover-lift { transition: transform 0.3s ease; }
+    .hover-lift:hover { transform: translateY(-3px); }
+    .rounded-5 { border-radius: 2rem !important; }
+    .rounded-4 { border-radius: 1.25rem !important; }
+    
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate__fadeIn { animation: fadeIn 0.8s ease-out forwards; }
 </style>

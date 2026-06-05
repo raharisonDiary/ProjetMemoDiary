@@ -1,16 +1,74 @@
 @model SocialGasy.Models.Citizen
-@{ ViewData["Title"] = "Supprimer le Citoyen"; }
 
-<div class="container py-5">
-    <h2>Supprimer le citoyen : @Model.LastName @Model.FirstName</h2>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-3">CIN</dt><dd class="col-sm-9">@Model.CIN</dd>
-        <dt class="col-sm-3">Date de naissance</dt><dd class="col-sm-9">@Model.DateOfBirth.ToShortDateString()</dd>
-    </dl>
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <button type="submit" class="btn btn-danger">Supprimer</button> |
-        <a asp-action="Index">Retour à la liste</a>
-    </form>
+@{
+    ViewData["Title"] = "Supprimer le Citoyen";
+}
+
+<div class="page-background py-5">
+    <div class="container animate__animated animate__fadeIn">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-lg rounded-5 overflow-hidden">
+                    <div class="card-header bg-danger text-white p-4 text-center border-0">
+                        <h3 class="fw-bold mb-1"><i class="bi bi-exclamation-triangle-fill me-2"></i> Confirmation de suppression</h3>
+                        <p class="mb-0 text-white-75 small text-uppercase tracking-wide">Attention : cette action est irréversible</p>
+                    </div>
+
+                    <div class="card-body p-4 p-lg-5 bg-white">
+                        <h4 class="text-danger fw-bold mb-4">Êtes-vous sûr de vouloir supprimer ce citoyen ?</h4>
+                        <p class="text-muted mb-4">Les données suivantes seront définitivement effacées du système :</p>
+                        
+                        <div class="bg-light p-4 rounded-4 mb-4 border border-secondary border-opacity-10">
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <label class="text-muted small d-block text-uppercase fw-bold">Numéro CIN</label>
+                                    <span class="fw-bold fs-5 text-dark">@Model.CIN</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="text-muted small d-block text-uppercase fw-bold">Nom complet</label>
+                                    <span class="fw-bold fs-5 text-dark">@Model.LastName @Model.FirstName</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="text-muted small d-block text-uppercase fw-bold">Sexe</label>
+                                    <span class="fw-bold fs-5 text-dark">@Model.Gender</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="text-muted small d-block text-uppercase fw-bold">Profession</label>
+                                    <span class="fw-bold fs-5 text-dark">@(string.IsNullOrEmpty(Model.Profession) ? "Non renseigné" : Model.Profession)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form asp-action="Delete" method="post" class="mt-4">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" asp-for="Id" />
+                            
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-5 rounded-4 border-0 hover-lift">Annuler</a>
+                                <button type="submit" class="btn btn-danger btn-lg px-5 rounded-4 shadow-sm fw-bold hover-lift">
+                                    <i class="bi bi-trash-fill me-2"></i> Supprimer définitivement
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Styles {
+    <style>
+        .page-background { min-height: 100vh; background: linear-gradient(135deg, #0f172a 0%, #334155 100%); padding-bottom: 2rem; }
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-3px); box-shadow: 0 10px 15px rgba(0,0,0,0.2) !important; }
+        .rounded-5 { border-radius: 2rem !important; }
+        .rounded-4 { border-radius: 1.25rem !important; }
+        
+        @@keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate__fadeIn { animation: fadeIn 0.8s ease-out forwards; }
+    </style>
+}

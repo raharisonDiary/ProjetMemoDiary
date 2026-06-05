@@ -21,12 +21,12 @@
         
         @if (User.Identity != null && User.Identity.IsAuthenticated)
         {
-            <div class="bg-dark border-end" id="sidebar-wrapper">
-                <div class="sidebar-heading text-white fw-bold py-4 px-3 fs-5">
-                    <i class="bi bi-shield-check text-warning"></i> SOCIAL GASY
+            <div id="sidebar-wrapper">
+                <div class="sidebar-heading px-3 py-4 fs-5 fw-bold text-white">
+                    <i class="bi bi-shield-check text-primary"></i> SOCIAL GASY
                 </div>
                 <div class="list-group list-group-flush px-2">
-                    <a class="nav-link-sidebar @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")" 
+                    <a class="nav-link-sidebar @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")" 
                        asp-controller="Home" asp-action="Index">
                         <i class="bi bi-house-door me-2"></i> Tableau de bord
                     </a>
@@ -49,7 +49,7 @@
                     
                     @if (User.IsInRole("ChefRegional"))
                     {
-                        <div class="small text-muted mt-4 mb-2 px-3 text-uppercase fw-bold" style="font-size: 10px;">Espace Chef</div>
+                        <div class="small text-muted mt-4 mb-2 px-3 text-uppercase fw-bold">Espace Chef</div>
                         <a class="nav-link-sidebar" asp-controller="Chef" asp-action="Dashboard">
                             <i class="bi bi-person-badge me-2"></i> Dashboard Chef
                         </a>
@@ -60,21 +60,18 @@
 
                     @if (User.IsInRole("Admin"))
                     {
-                        <div class="small text-muted mt-4 mb-2 px-3 text-uppercase fw-bold" style="font-size: 10px;">Administrateur</div>
-                        <a class="nav-link-sidebar" asp-controller="Admin" asp-action="Index">
-                            <i class="bi bi-person-gear me-2"></i> Membres
+                        <div class="small text-muted mt-4 mb-2 px-3 text-uppercase fw-bold">Administrateur</div>
+                        <a class="nav-link-sidebar" asp-controller="Admin" asp-action="Dashboard">
+                            <i class="bi bi-person-gear me-2"></i> Rapports
                         </a>
                         <a class="nav-link-sidebar" asp-controller="Admin" asp-action="ListChefs">
                             <i class="bi bi-people-fill me-2"></i> Liste des chefs
                         </a>
-                        <a class="nav-link-sidebar" asp-controller="Admin" asp-action="Dashboard">
-                            <i class="bi bi-file-earmark-bar-graph me-2"></i> Rapports
-                        </a>
                     }
 
-                    <div class="small text-muted mt-4 mb-2 px-3 text-uppercase fw-bold" style="font-size: 10px;">Informations</div>
+                    <div class="small text-muted mt-4 mb-2 px-3 text-uppercase fw-bold">Informations</div>
                     <a class="nav-link-sidebar" asp-controller="Home" asp-action="About">
-                        <i class="bi bi-info-circle me-2"></i> À propos du projet
+                        <i class="bi bi-info-circle me-2"></i> À propos
                     </a>
                 </div>
             </div>
@@ -84,18 +81,18 @@
             @if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm px-4 sticky-top">
-                    <button class="btn btn-light border-0 shadow-sm d-md-none me-3" id="menu-toggle">
+                    <button class="btn btn-light d-md-none me-3" id="menu-toggle">
                         <i class="bi bi-list"></i>
                     </button>
-                    <div class="ms-auto d-flex align-items-center">
+                    <div class="ms-auto">
                         <div class="dropdown">
                             <a class="nav-link dropdown-toggle fw-bold text-dark d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
                                 <div class="avatar-circle me-2">
-                                    @(User.Identity.Name != null && User.Identity.Name.Length > 0 ? User.Identity.Name.Substring(0, 1) : "U")
+                                    @(User.Identity.Name?.Substring(0, 1) ?? "U")
                                 </div>
                                 <span class="d-none d-sm-inline">@(User.Identity.Name ?? "Utilisateur")</span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
                                 <li><a class="dropdown-item" asp-controller="Account" asp-action="Profil"><i class="bi bi-person me-2"></i> Profil</a></li>
                                 <li>
                                     <form asp-controller="Account" asp-action="Logout" method="post">
@@ -113,7 +110,7 @@
             <div class="container-fluid p-4">
                 @if (TempData["Success"] != null)
                 {
-                    <div class="alert alert-success border-0 shadow-sm fade show" role="alert">
+                    <div class="alert alert-success border-0 shadow-sm mb-4">
                         <i class="bi bi-check-circle-fill me-2"></i> @TempData["Success"]
                     </div>
                 }
@@ -128,22 +125,16 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/sync-manager.js" asp-append-version="true"></script>
-
     <script>
         $(document).ready(function () {
-            function toggleMenu() {
-                $("#wrapper").toggleClass("toggled");
-                $("#sidebar-overlay").fadeToggle();
-            }
-
             $("#menu-toggle").click(function(e) {
                 e.preventDefault();
-                toggleMenu();
+                $("#wrapper").toggleClass("toggled");
+                $("#sidebar-overlay").fadeToggle();
             });
-
             $("#sidebar-overlay").click(function() {
-                toggleMenu();
+                $("#wrapper").toggleClass("toggled");
+                $(this).fadeToggle();
             });
         });
     </script>

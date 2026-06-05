@@ -1,18 +1,103 @@
 @model SocialGasy.Models.Citizen
-@{ ViewData["Title"] = "Modifier le Citoyen"; }
 
-<div class="container py-5">
-    <h2>Modifier les informations</h2>
-    <form asp-action="Edit">
-        <input type="hidden" asp-for="Id" />
-        <div class="mb-3">
-            <label asp-for="LastName" class="form-label">Nom</label>
-            <input asp-for="LastName" class="form-control" />
+@{
+    ViewData["Title"] = "Modifier le Citoyen";
+}
+
+<div class="page-background py-5">
+    <div class="container animate__animated animate__fadeIn">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card border-0 shadow-lg rounded-5 overflow-hidden">
+                    <div class="card-header bg-warning text-white p-4 text-center border-0">
+                        <h3 class="fw-bold mb-1"><i class="bi bi-pencil-square me-2"></i> Modifier les informations</h3>
+                        <p class="mb-0 text-white-75 small text-uppercase tracking-wide">Mise à jour de la fiche citoyen</p>
+                    </div>
+
+                    <div class="card-body p-4 p-lg-5 bg-white">
+                        <div asp-validation-summary="All" class="text-danger mb-4"></div>
+                        
+                        <form asp-action="Edit" method="post" class="needs-validation" novalidate autocomplete="off">
+                            @Html.AntiForgeryToken()
+                            
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="PhotoBase64" />
+                            <input type="hidden" asp-for="RegisteredAt" />
+                            <input type="hidden" asp-for="QRCodeData" />
+
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Numéro CIN</label>
+                                    <input asp-for="CIN" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" maxlength="12" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Profession</label>
+                                    <input asp-for="Profession" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Nom</label>
+                                    <input asp-for="LastName" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Prénom</label>
+                                    <input asp-for="FirstName" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Date de naissance</label>
+                                    <input asp-for="DateOfBirth" type="date" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Sexe</label>
+                                    <select asp-for="Gender" class="form-select form-select-lg rounded-4 shadow-sm border-secondary border-opacity-25">
+                                        <option value="Masculin">Masculin</option>
+                                        <option value="Féminin">Féminin</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Situation matrimoniale</label>
+                                    <select asp-for="MaritalStatus" class="form-select form-select-lg rounded-4 shadow-sm border-secondary border-opacity-25">
+                                        <option value="Célibataire">Célibataire</option>
+                                        <option value="Marié">Marié</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Nombre d'enfants</label>
+                                    <input asp-for="NumberOfChildren" type="number" min="0" class="form-control form-control-lg rounded-4 shadow-sm border-secondary border-opacity-25" />
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">Foyer (Ménage)</label>
+                                    <select asp-for="HouseholdId" asp-items="ViewBag.Households" class="form-select form-select-lg rounded-4 shadow-sm border-secondary border-opacity-25" required>
+                                        <option value="">-- Sélectionnez un foyer --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mt-5 d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-5 rounded-4 border-0 hover-lift">Annuler</a>
+                                <button type="submit" class="btn btn-warning btn-lg px-5 rounded-4 shadow-sm text-white fw-bold hover-lift">
+                                    <i class="bi bi-check2-circle me-2"></i> Enregistrer les modifications
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label asp-for="FirstName" class="form-label">Prénom</label>
-            <input asp-for="FirstName" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-    </form>
+    </div>
 </div>
+
+@section Styles {
+    <style>
+        .page-background { min-height: 100vh; background: linear-gradient(135deg, #0f172a 0%, #334155 100%); padding-bottom: 2rem; }
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-3px); box-shadow: 0 10px 15px rgba(0,0,0,0.2) !important; }
+        .rounded-5 { border-radius: 2rem !important; }
+        .rounded-4 { border-radius: 1.25rem !important; }
+        
+        @@keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate__fadeIn { animation: fadeIn 0.8s ease-out forwards; }
+    </style>
+}
